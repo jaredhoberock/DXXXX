@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+  <link rel="import" href="bower_components/cxx-html-doc-framework/framework.html"/>
+</head>
+<body unresolved="">
+
+
+<cxx-titlepage stage="draft">
+<cxx-docnum>DXXXX</cxx-docnum>
+  <time pubdate="">2015-XX-XX</time>
+  <cxx-editor>
+    Jared Hoberock<br/>
+    NVIDIA Corporation<br/>
+    <cxx-email>jhoberock@nvidia.com</cxx-email>
+  </cxx-editor>
+  <h1>TITLE HERE</h1>
+</cxx-titlepage>
+
+<cxx-toc></cxx-toc>
+
+<h1>Additions to Clause 20</h1>
+<p>Add the following entry to Table 44:</p>
+
+<ins>
+<table>
+  <tr><td>20.15</td><td>Execution policies</td><td><code>&ltexecution_policy&gt</code></td></tr>
+</table>
+</ins>
+  
+<p>Add a new subclause to Clause 20:</p>
+
+<ins>
+<cxx-clause id = utilities number = 20>
+  <h1>General utilities library</h1>
+  <cxx-section id = "execpol" number = 15>
+    <h1>Execution policies</h1>
+    <cxx-section id ="execpol.general">
+      <h1>In general</h1>
+        <p>
+          This subclause describes classes that are <dfn>execution policy</dfn> types. An object
+          of an execution policy type indicates the kinds of parallelism allowed in the execution
+          of an algorithm and expresses the consequent requirements on the element
+          access functions.
+        </p>
+
+        <cxx-example>
+          <cxx-codeblock>
+std::vector&lt;int&gt; v = ...
+
+// standard sequential sort
+std::sort(v.begin(), v.end());
+
+using namespace std::experimental::parallel;
+
+// explicitly sequential sort
+sort(seq, v.begin(), v.end());
+
+// permitting parallel execution
+sort(par, v.begin(), v.end());
+
+// permitting vectorization as well
+sort(par_vec, v.begin(), v.end());
+
+// sort with dynamically-selected execution
+size_t threshold = ...
+execution_policy exec = seq;
+if (v.size() &gt; threshold)
+{
+  exec = par;
+}
+
+sort(exec, v.begin(), v.end());
+          </cxx-codeblock>
+        </cxx-example><pre>
+</pre>
+
+      <cxx-note>
+        Because different parallel architectures may require idiosyncratic
+        parameters for efficient execution, implementations of the Standard Library 
+        may provide additional execution policies to those described in this
+        standard as extensions.
+      </cxx-note>
+    </cxx-section>
+
+    <cxx-section id = "execpol.synopsis">
+      <h1>Header <code>&lt;execution_policy&gt;</code> synopsis</h1>
+        <cxx-codeblock>
+namespace std {
+  <cxx-ref insynopsis="" to="execpol.type"></cxx-ref>
+  template&lt;class T&gt; struct is_execution_policy;
+  template&lt;class T&gt; constexpr bool is_execution_policy_v = is_execution_policy&lt;T&gt;::value;
+
+  <cxx-ref insynopsis="" to="execpol.seq"></cxx-ref>
+  class sequential_execution_policy;
+
+  <cxx-ref insynopsis="" to="execpol.par"></cxx-ref>
+  class parallel_execution_policy;
+
+  <cxx-ref insynopsis="" to="execpol.vec"></cxx-ref>
+  class parallel_vector_execution_policy;
+
+  <cxx-ref insynopsis="" to="execpol.dynamic"></cxx-ref>
+  class execution_policy;
+}
+        </cxx-codeblock>
+    </cxx-section>
+
+    <cxx-section id = "execpol.type">
+      <h1>Execution policy type trait</h1>
+<pre>
+template&lt;class T&gt; struct is_execution_policy { <em>see below</em> };
+</pre>
+
+    <p><code>is_execution_policy</code> can be used to detect parallel execution policies for the purpose of excluding function signatures from otherwise ambiguous overload resolution participation.</p>
+    
+    <p><code>is_execution_policy&lt;T&gt;</code> shall be a UnaryTypeTrait with a BaseCharacteristic of <code>true_type</code> if <code>T</code> is the type of a standard or implementation-defined execution policy, otherwise <code>false_type</code>.
+
+    <pre>
+</pre>
+
+    <cxx-note>
+      This provision reserves the privilege of creating non-standard execution policies to the library implementation.
+    </cxx-note>
+    
+    <p>The behavior of a program that adds specializations for <code>is_execution_policy</code> is undefined.</p>
+    </cxx-section>
+
+    <cxx-section id="execpol.seq">
+      <h1>Sequential execution policy</h1>
+
+    <pre>
+class sequential_execution_policy{ <i>unspecified</i> };
+</pre>
+
+      <p>The class <code>sequential_execution_policy</code> is an execution policy type used as a unique type to disambiguate parallel algorithm overloading and require that a parallel algorithm's execution may not be parallelized.</p>
+    </cxx-section>
+
+    <cxx-section id="execpol.par">
+      <h1>Parallel execution policy</h1>
+  
+<pre>
+class parallel_execution_policy{ <i>unspecified</i> };
+</pre>
+
+      <p>The class <code>parallel_execution_policy</code> is an execution policy type used as a unique type to disambiguate parallel algorithm overloading and indicate that a parallel algorithm's execution may be parallelized.</p>
+    </cxx-section>
+
+    <cxx-section id="execpol.vec">
+      <h1>Parallel+Vector execution policy</h1>
+
+<pre>
+class parallel_vector_execution_policy{ <i>unspecified</i> };
+</pre>
+
+      <p>The class <code>class parallel_vector_execution_policy</code> is an execution policy type used as a unique type to disambiguate parallel algorithm overloading and indicate that a parallel algorithm's execution may be vectorized and parallelized.</p>
+    </cxx-section>
+
+  </cxx-section>
+</cxx-section>
+</cxx-clause>
+</ins>
+
+<cxx-publish-button source="https://github.com/jaredhoberock/DXXXX"></cxx-publish-button>
+
+</body>
+</html>
+
