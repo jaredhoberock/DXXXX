@@ -158,6 +158,101 @@ class parallel_vector_execution_policy{ <i>unspecified</i> };
       <p>The class <code>class parallel_vector_execution_policy</code> is an execution policy type used as a unique type to disambiguate parallel algorithm overloading and indicate that a parallel algorithm's execution may be vectorized and parallelized.</p>
     </cxx-section>
 
+    <cxx-section id = "execpol.dynamic">
+      <h1>Dynamic execution policy</h1>
+
+<pre>
+class execution_policy
+{
+  public:
+    <cxx-ref insynopsis="" to="parallel.execpol.con"></cxx-ref>
+    template&lt;class T&gt; execution_policy(const T&amp; exec);
+    template&lt;class T&gt; execution_policy&amp; operator=(const T&amp; exec);
+
+    <cxx-ref insynopsis="" to="parallel.execpol.access"></cxx-ref>
+    const type_info&amp; type() const noexcept;
+    template&lt;class T&gt; T* get() noexcept;
+    template&lt;class T&gt; const T* get() const noexcept;
+};
+</pre>
+
+      <p>The class <code>execution_policy</code> is a container for execution policy objects.
+      <code>execution_policy</code> allows dynamic control over standard algorithm execution.</p>
+
+      <cxx-example>
+        <pre>std::vector&lt;float&gt; sort_me = ...
+        
+using namespace std::experimental::parallel;
+execution_policy exec = seq;
+
+if(sort_me.size() &gt; threshold)
+{
+  exec = std::par;
+}
+ 
+std::sort(exec, std::begin(sort_me), std::end(sort_me));</pre>
+      </cxx-example>
+
+      <p>Objects of type <code>execution_policy</code> shall be constructible and assignable from objects of
+      type <code>T</code> for which <code>is_execution_policy&lt;T&gt;::value</code> is <code>true</code>.</p>
+
+      <cxx-section id="parallel.execpol.con">
+        <h1><code>execution_policy</code> construct/assign</h1>
+
+        <cxx-function>
+          <cxx-signature>template&lt;class T&gt; execution_policy(const T&amp; exec);</cxx-signature>
+
+          <cxx-effects>Constructs an <code>execution_policy</code> object with a copy of <code>exec</code>'s state.</cxx-effects>
+
+          <cxx-remarks>
+            This constructor shall not participate in overload resolution unless
+            <code>is_execution_policy&lt;T&gt;::value</code> is <code>true</code>.
+          </cxx-remarks>
+        </cxx-function>
+
+        <cxx-function>
+          <cxx-signature>template&lt;class T&gt; execution_policy&amp; operator=(const T&amp; exec);</cxx-signature>
+
+          <cxx-effects>Assigns a copy of <code>exec</code>'s state to <code>*this</code>.</cxx-effects>
+
+          <cxx-returns><code>*this</code>.
+        </cxx-function>
+      </cxx-section>
+
+      <cxx-section id="parallel.execpol.access">
+        <h1><code>execution_policy</code> object access</h1>
+
+        <cxx-function>
+          <cxx-signature>const type_info&amp; type() const noexcept;</cxx-signature>
+
+          <cxx-returns><code>typeid(T)</code>, such that <code>T</code> is the type of the execution policy object contained by <code>*this</code>.</cxx-returns>
+        </cxx-function>
+
+        <cxx-function>
+        <cxx-signature>template&lt;class T&gt; T* get() noexcept;</cxx-signature>
+        <cxx-signature>template&lt;class T&gt; const T* get() const noexcept;</cxx-signature>
+
+          <cxx-returns>If <code>target_type() == typeid(T)</code>, a pointer to the stored execution policy object; otherwise a null pointer.</cxx-returns>
+
+          <cxx-requires>
+            <code>is_execution_policy&lt;T&gt;::value</code> is <code>true</code>.
+          </cxx-requires>
+        </cxx-function>
+      </cxx-section>
+    </cxx-section>
+
+    <cxx-section id="parallel.execpol.objects">
+      <h1>Execution policy objects</h1>
+  
+<pre>
+constexpr sequential_execution_policy      seq{};
+constexpr parallel_execution_policy        par{};
+constexpr parallel_vector_execution_policy par_vec{};
+</pre>
+
+      <p>The header <code>&lt;experimental/execution_policy&gt;</code> declares a global object associated with each type of execution policy defined by this Technical Specification.</p>
+    </cxx-section>
+
   </cxx-section>
 </cxx-section>
 </cxx-clause>
