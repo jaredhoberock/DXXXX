@@ -1,20 +1,145 @@
 <section>
   <h1>Abstract</h1>
+
+  <p>We survey implementation experience with the recently published C++ Technical
+  Specification for Extensions for Parallelism and conclude that ample
+  experience with its functionality exists to justify standardization in C++17.
+  This paper describes various existing and pre-existing implementations of the
+  TS's content and describes the additions to be made to the current C++
+  working paper (N4527) to integrate execution policies and parallel algorithms into
+  the C++ Standard Library.</p>
 </section>
 
 <section>
   <h1>Implementation Experience</h1>
 
-  <section>
-    <h1>Survey of existing implementations</h1>
-  </section>
+  Although the first version of the Parallelism TS has been published only
+  recently, we believe practioners have suitable experience with both existing
+  and pre-existing implementations of its functionality to allow prompt
+  standardization. Both implementors and users are ready for parallel
+  algorithms in C++.
 
   <section>
-    <h1>Survey of pre-existing implementations</h1>
+    <h1>Existing implementations</h1>
+
+    <p>Several different implementations of the Parallelism TS emerged during its preparation.
+    We are aware of the following publically documented implementations.</p>
+
+    <ul>
+      <li>
+        Microsoft: <a href="http://parallelstl.codeplex.com">http://parallelstl.codeplex.com</a>
+      </li>
+
+      <li>
+        HPX: <a href="http://stellar-group.github.io/hpx/docs/html/hpx/manual/parallel.html">http://stellar-group.github.io/hpx/docs/html/hpx/manual/parallel.html</a>
+      </li>
+
+      <li>
+        Codeplay: <a href="http://github.com/KhronosGroup/SyclParallelSTL">http://github.com/KhronosGroup/SyclParallelSTL</a>
+      </li>
+
+      <li>
+        HSA: <a href="http://www.hsafoundation.com/hsa-for-math-science">http://www.hsafoundation.com/hsa-for-math-science</a>
+      </li>
+
+      <li>
+        Thibaut Lutz: <a href="http://github.com/t-lutz/ParallelSTL">http://github.com/t-lutz/ParallelSTL</a>
+      </li>
+
+      <li>
+        NVIDIA: <a href="http://github.com/n3554/n3554">http://github.com/n3554/n3554</a>
+      </li>
+    </ul>
+  </section>
+
+  <p>These implementations implement the functionality of the Parallelism TS to
+  varying degrees and in different ways. For example, Microsoft's
+  implementation appears complete and is implemented via Windows-specific
+  tasking facilities. Thibaut Lutz' version also appears complete and is
+  implemented by manipulating <code>std::thread</code> in a standard way.
+  NVIDIA's implementation is partial and is implemented as a thin wrapper
+  around Thrust, a pre-existing library similar in content to the Parallelism
+  TS. This variety of implementation approaches exists by design: the
+  abstractions of the Parallelism TS are intended to maximize flexibility of
+  implementation.</p>
+
+  <section>
+    <h1>Pre-existing implementations</h1>
+
+    <p>
+      The design of the Parallelism TS's functionality was inspired by
+      several pre-existing libraries. Each of the following parallel algorithms
+      libraries expose an iterator-based algorithm interface based on the
+      conventions of the original Standard Template Library. We believe these
+      libraries are a reasonable proxy for the content of the Parallelism TS.
+    </p>
+
+    <ul>
+      <li>
+        Thrust: <a href="http://thrust.github.io">http://thrust.github.io</a>
+      </li>
+
+      <li>
+        Boost.Compute: <a href="http://github.com/boostorg/compute">http://github.com/boostorg/compute</a>
+      </li>
+
+      <li>
+        Bolt: <a href="http://github.com/HSA-Libraries/Bolt">http://github.com/HSA-Libraries/Bolt</a>
+      </li>
+
+      <li>
+        libstdc++ Parallel Mode: <a href="http://gcc.gnu.org/onlinedocs/libstdc++/manual/parallel_mode.html">http://gcc.gnu.org/onlinedocs/libstdc++/manual/parallel_mode.html</a>
+      </li>
+
+      <li>
+        AMP Algorithms Library: <a href="http://ampalgorithms.codeplex.com">http://ampalgorithms.codeplex.com</a>
+      </li>
+    </ul>
+  </section>
+
+  <p>These libraries have existed for several years, and some are widely
+  deployed in production. Accordingly, we believe the features of the
+  Parallelism TS are proven abstractions that represent standard practice and
+  solve real challenges faced by real C++ programmers. These challenges exist
+  because parallel architectures are so pervasive, and programming them
+  correctly with existing low-level standard components is difficult. As a
+  remedy, we believe that the high-level abstractions of the Parallelism TS
+  must be standardized as soon as possible. C++ programmers should not have to
+  wait beyond 2017 for standard parallel algorithms.<p>
+
+  <section>
+    <h1>Future Support</h1>
+
+    <p>
+      The parallel algorithms and execution policies of the Parallelism TS are
+      only a starting point. Already we anticipate opportunities for extending the
+      Parallelism TS's functionality to increase programmer flexibility and
+      expressivity. A fully-realized executors feature (proposal numbers here) will yield new, flexible ways of
+      creating execution, including the execution of parallel algorithms. For
+      example, executors will provide a programmatic means of specifying <em>where</em>
+      execution is allowed to occur during parallel algorithm execution and will
+      open the door for user-defined execution policies in addition to the Parallelism TS's closed
+      set of standard policies. If the first version of the Parallelism TS is
+      standardized in 2017, such additional features for parallelism will be well-positioned for
+      2020.
+    </p>
   </section>
 </section>
 
 <section>
   <h1>Summary of proposed changes</h1>
+
+  <p>
+    We propose to standardize the functionality of the Parallelism TS as specified. In summary:
+
+    <ul>
+      <li>Add <code>exception_list</code> as a new subclause to Clause 19.</li>
+      <li>Add execution policies as a new subclause to Clause 20.</li>
+      <li>Introduce general wording for parallel algorithms as a new subclause to Clause 25.</li>
+      <li>Add the new algorithms introduced by the Parallelism TS to Clauses 20, 25, and 26.</li>
+    </ul>
+
+    The locations of these changes merely represent our best guess and we expect them to change at the Library Working Group's discretion.
+  </p>
 </section>
 
