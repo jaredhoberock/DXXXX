@@ -14,7 +14,7 @@
   <h1>Implementation Experience</h1>
 
   Although the first version of the Parallelism TS has been published only
-  recently, we believe practioners have suitable experience with both existing
+  recently (N4354 update this number?), we believe practioners have suitable experience with both existing
   and pre-existing implementations of its functionality to allow prompt
   standardization. Both implementors and users are ready for parallel
   algorithms in C++.
@@ -114,7 +114,7 @@
       The parallel algorithms and execution policies of the Parallelism TS are
       only a starting point. Already we anticipate opportunities for extending the
       Parallelism TS's functionality to increase programmer flexibility and
-      expressivity. A fully-realized executors feature (proposal numbers here) will yield new, flexible ways of
+      expressivity. A fully-realized executors feature (N4414, N4406) will yield new, flexible ways of
       creating execution, including the execution of parallel algorithms. For
       example, executors will provide a programmatic means of specifying <em>where</em>
       execution is allowed to occur during parallel algorithm execution and will
@@ -141,5 +141,15 @@
 
     The locations of these changes merely represent our best guess and we expect them to change at the Library Working Group's discretion.
   </p>
+</section>
+
+<section>
+  <h1>References</h1>
+
+  <ol>
+    <li>N4354 - <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4354.pdf">Programming Languages - Technical Specification for C++ Extensions for Parallelism</a>, International Standards Organization. 2015.</li>
+    <li>N4414 - <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4414.pdf">Executors and schedulers, revision 5</a>, C. Mysen. 2015.</li>
+    <li>N4406 - <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4406.pdf">Parallel Algorithms Need Executors</a>, J. Hoberock et al. 2015.</li>
+  </ol>
 </section>
 
