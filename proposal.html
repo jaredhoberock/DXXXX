@@ -14,10 +14,28 @@
   <h1>Implementation Experience</h1>
 
   Although the first version of the Parallelism TS has been published only
-  recently (N4354 update this number?), we believe practioners have suitable experience with both existing
+  recently (N4354), we believe practioners have suitable experience with both existing
   and pre-existing implementations of its functionality to allow prompt
   standardization. Both implementors and users are ready for parallel
   algorithms in C++.
+
+  <section>
+    <h1>Development History</h1>
+
+    <p>The technical content of the Parallelism TS was developed by domain
+    experts in parallelism over the course of a few years. In 2012,
+    representatives from NVIDIA (N3408) as well as representiatives from
+    Microsoft and Intel (N3429) independently proposed library approaches to
+    parallelism within the C++ Standard Library. At the suggestion of SG1 the
+    authors of these proposals submitted a design in a joint proposal (N3554)
+    to parallelize the existing standard algorithms library. This proposal was
+    refined into the Parallelism TS over the course of two years. During that
+    refinement process, the authors of the Parallelism TS incorporated feedback
+    from experimental implementations into the final design which was published
+    in 2015. In total, the C++ Standardization Committee has three years
+    of experience with the TS's design.</p>
+
+  </section>
 
   <section>
     <h1>Existing implementations</h1>
@@ -147,6 +165,9 @@
   <h1>References</h1>
 
   <ol>
+    <li>N4308 - <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3408.pdf">Parallelizing the Standard Algorithms Library</a>, J. Hoberock, M. Garland, O. Giroux, V. Grover, U. Kapasi, and J. Marathe. 2012.</li>
+    <li>N4329 - <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3429.pdf">A Library Solution to Parallelism</a>, A. Laksberg, H. Sutter, A. Robison, and S. Mithani. 2012.</li>
+    <li>N3554 - <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3554.pdf">A Parallel Algorithms Library</a>, J. Hoberock, J. Marathe, M. Garland, O. Giroux, V. Grover, A. Laksberg, H. Sutter, and A. Robison. 2013.</li>
     <li>N4354 - <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4354.pdf">Programming Languages - Technical Specification for C++ Extensions for Parallelism</a>, International Standards Organization. 2015.</li>
     <li>N4414 - <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4414.pdf">Executors and schedulers, revision 5</a>, C. Mysen. 2015.</li>
     <li>N4406 - <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4406.pdf">Parallel Algorithms Need Executors</a>, J. Hoberock et al. 2015.</li>
