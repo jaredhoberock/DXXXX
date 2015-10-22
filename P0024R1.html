@@ -1262,15 +1262,15 @@ we expect them to change at the Library Working Group's discretion.
         
       </li>
             
-              <li><span class="marker">20</span><a href="#algorithms">Algorithms library</a>
+              <li><span class="marker">25</span><a href="#algorithms">Algorithms library</a>
         
           <ol>
             
-              <li><span class="marker">20.2</span><a href="#algorithms.parallel">Parallel algorithms</a>
+              <li><span class="marker">25.2</span><a href="#algorithms.parallel">Parallel algorithms</a>
         
           <ol>
             
-              <li><span class="marker">20.2.1</span><a href="#algorithms.parallel.defns">Terms and definitions</a>
+              <li><span class="marker">25.2.1</span><a href="#algorithms.parallel.defns">Terms and definitions</a>
         
       </li>
             
@@ -1278,19 +1278,19 @@ we expect them to change at the Library Working Group's discretion.
         
       </li>
             
-              <li><span class="marker">20.3</span><a href="#algorithms.parallel.user">Requirements on user-provided function objects</a>
+              <li><span class="marker">25.3</span><a href="#algorithms.parallel.user">Requirements on user-provided function objects</a>
         
       </li>
             
-              <li><span class="marker">20.4</span><a href="#algorithms.parallel.exec">Effect of execution policies on algorithm execution</a>
+              <li><span class="marker">25.4</span><a href="#algorithms.parallel.exec">Effect of execution policies on algorithm execution</a>
         
       </li>
             
-              <li><span class="marker">20.5</span><a href="#algorithms.parallel.exceptions">Parallel algorithm exceptions</a>
+              <li><span class="marker">25.5</span><a href="#algorithms.parallel.exceptions">Parallel algorithm exceptions</a>
         
       </li>
             
-              <li><span class="marker">20.6</span><a href="#algorithms.parallel.overloads">ExecutionPolicy algorithm overloads</a>
+              <li><span class="marker">25.6</span><a href="#algorithms.parallel.overloads">ExecutionPolicy algorithm overloads</a>
         
       </li>
             
@@ -1424,7 +1424,7 @@ we expect them to change at the Library Working Group's discretion.
 // standard sequential sort
 std::sort(v.begin(), v.end());
 
-using namespace std::experimental::parallel;
+using namespace std<del>::experimental::parallel</del>;
 
 // explicitly sequential sort
 sort(seq, v.begin(), v.end());
@@ -1612,7 +1612,7 @@ execution may be vectorized and parallelized.</p>
     
         <pre>std::vector&lt;float&gt; sort_me = ...
         
-using namespace std::experimental::parallel;
+using namespace std<del>::experimental::parallel</del>;
 execution_policy exec = seq;
 
 if(sort_me.size() &gt; threshold)
@@ -1751,7 +1751,7 @@ constexpr parallel_execution_policy        par{};
 constexpr parallel_vector_execution_policy par_vec{};
 </pre>
 
-      <p para_num="1" id="parallel.execpol.objects.1">The header <code>&lt;experimental/execution_policy&gt;</code> declares a global object associated with each type of execution policy defined by this Technical Specification.</p>
+      <p para_num="1" id="parallel.execpol.objects.1">The header <code>&lt;<del>experimental/</del>execution_policy&gt;</code> declares a global object associated with each type of execution policy defined by this Technical Specification.</p>
     
     </section>
   </cxx-section>
@@ -1790,9 +1790,9 @@ constexpr parallel_vector_execution_policy par_vec{};
       
     
     <pre>namespace std {
-namespace experimental {
+<del>namespace experimental {
 namespace parallel {
-inline namespace v1 {
+inline namespace v1 {</del>
 
   class exception_list : public exception
   {
@@ -1805,9 +1805,9 @@ inline namespace v1 {
 
       const char* what() const noexcept override;
   };
+<del>}
 }
-}
-}
+}</del>
 }
     </pre>
     <p para_num="1" id="exception.list.1">
@@ -1910,11 +1910,11 @@ inline namespace v1 {
 <h1>Introducing general parallel algorithms content</h1>
 <p>Add the following subclause to Clause 25:</p>
 
-<cxx-clause id="algorithms">
+<cxx-clause id="algorithms" number="25">
     
 
     <section>
-      <header><span class="section-number">20</span> <h1 data-bookmark-label="20 Algorithms library">Algorithms library</h1> <span style="float:right"><a href="#algorithms">[algorithms]</a></span></header>
+      <header><span class="section-number">25</span> <h1 data-bookmark-label="25 Algorithms library">Algorithms library</h1> <span style="float:right"><a href="#algorithms">[algorithms]</a></span></header>
       
   
 
@@ -1922,7 +1922,7 @@ inline namespace v1 {
     
 
     <section>
-      <header><span class="section-number">20.2</span> <h1 data-bookmark-label="20.2 Parallel algorithms">Parallel algorithms</h1> <span style="float:right"><a href="#algorithms.parallel">[algorithms.parallel]</a></span></header>
+      <header><span class="section-number">25.2</span> <h1 data-bookmark-label="25.2 Parallel algorithms">Parallel algorithms</h1> <span style="float:right"><a href="#algorithms.parallel">[algorithms.parallel]</a></span></header>
       
     
 
@@ -1933,10 +1933,10 @@ inline namespace v1 {
     
 
     <section>
-      <header><span class="section-number">20.2.1</span> <h1 data-bookmark-label="20.2.1 Terms and definitions">Terms and definitions</h1> <span style="float:right"><a href="#algorithms.parallel.defns">[algorithms.parallel.defns]</a></span></header>
+      <header><span class="section-number">25.2.1</span> <h1 data-bookmark-label="25.2.1 Terms and definitions">Terms and definitions</h1> <span style="float:right"><a href="#algorithms.parallel.defns">[algorithms.parallel.defns]</a></span></header>
       
       
-        <p para_num="1" id="algorithms.parallel.defns.1">A <dfn>parallel algorithm</dfn> is a function template described by this Technical Specification declared in namespace <code>std::experimental::parallel::v1</code> with a formal template parameter named <code>ExecutionPolicy</code>.</p>
+        <p para_num="1" id="algorithms.parallel.defns.1">A <dfn>parallel algorithm</dfn> is a function template <del>described by this Technical Specification declared in namespace <code>std::experimental::parallel::v1</code></del><ins>listed in <cxx-ref to="tab.parallel.algorithms"><a title="tab.parallel.algorithms" href="#tab.parallel.algorithms">Table 1</a></cxx-ref></ins> with a formal template parameter named <code>ExecutionPolicy</code>.</p>
 
         <p para_num="2" id="algorithms.parallel.defns.2">
           Parallel algorithms access objects indirectly accessible via their arguments by invoking the following functions:
@@ -2004,7 +2004,7 @@ template argument, as per 24.2.7, as implied by the name of the
     
 
     <section>
-      <header><span class="section-number">20.3</span> <h1 data-bookmark-label="20.3 Requirements on user-provided function objects">Requirements on user-provided function objects</h1> <span style="float:right"><a href="#algorithms.parallel.user">[algorithms.parallel.user]</a></span></header>
+      <header><span class="section-number">25.3</span> <h1 data-bookmark-label="25.3 Requirements on user-provided function objects">Requirements on user-provided function objects</h1> <span style="float:right"><a href="#algorithms.parallel.user">[algorithms.parallel.user]</a></span></header>
       
       
 
@@ -2021,7 +2021,7 @@ template argument, as per 24.2.7, as implied by the name of the
     
 
     <section>
-      <header><span class="section-number">20.4</span> <h1 data-bookmark-label="20.4 Effect of execution policies on algorithm execution">Effect of execution policies on algorithm execution</h1> <span style="float:right"><a href="#algorithms.parallel.exec">[algorithms.parallel.exec]</a></span></header>
+      <header><span class="section-number">25.4</span> <h1 data-bookmark-label="25.4 Effect of execution policies on algorithm execution">Effect of execution policies on algorithm execution</h1> <span style="float:right"><a href="#algorithms.parallel.exec">[algorithms.parallel.exec]</a></span></header>
       
       
       <p para_num="1" id="algorithms.parallel.exec.1">
@@ -2055,10 +2055,10 @@ template argument, as per 24.2.7, as implied by the name of the
       <cxx-example>
     
     <span class="nowrap">[ <em>Example:</em></span>
-    <pre>using namespace std::experimental::parallel;
+    <pre><del>using namespace std::experimental::parallel;</del>
 int a[] = {0,1};
 std::vector&lt;int&gt; v;
-for_each(par, std::begin(a), std::end(a), [&amp;](int i) {
+<ins>std::</ins>for_each(<ins>std::</ins>par, std::begin(a), std::end(a), [&amp;](int i) {
   v.push_back(i*2+1);
 });
 </pre>
@@ -2072,10 +2072,10 @@ for_each(par, std::begin(a), std::end(a), [&amp;](int i) {
       <cxx-example>
     
     <span class="nowrap">[ <em>Example:</em></span>
-    <pre>using namespace std::experimental::parallel;
+    <pre><del>using namespace std::experimental::parallel;</del>
 std::atomic&lt;int&gt; x = 0;
 int a[] = {1,2};
-for_each(par, std::begin(a), std::end(a), [&amp;](int n) {
+<ins>std::</ins>for_each(<ins>std::</ins>par, std::begin(a), std::end(a), [&amp;](int n) {
   x.fetch_add(1, std::memory_order_relaxed);
   // spin wait for another iteration to change the value of x
   while (x.load(std::memory_order_relaxed) == 1) { }
@@ -2090,11 +2090,11 @@ for_each(par, std::begin(a), std::end(a), [&amp;](int n) {
       <cxx-example>
     
     <span class="nowrap">[ <em>Example:</em></span>
-    <pre>using namespace std::experimental::parallel;
+    <pre><del>using namespace std::experimental::parallel;</del>
 int x=0;
 std::mutex m;
 int a[] = {1,2};
-for_each(par, std::begin(a), std::end(a), [&amp;](int) {
+<ins>std::</ins>for_each(<ins>std::</ins>par, std::begin(a), std::end(a), [&amp;](int) {
   m.lock();
   ++x;
   m.unlock();
@@ -2149,11 +2149,11 @@ for_each(par, std::begin(a), std::end(a), [&amp;](int) {
       <cxx-example>
     
     <span class="nowrap">[ <em>Example:</em></span>
-    <pre>using namespace std::experimental::parallel;
+    <pre><del>using namespace std::experimental::parallel;</del>
 int x=0;
 std::mutex m;
 int a[] = {1,2};
-for_each(par_vec, std::begin(a), std::end(a), [&amp;](int) {
+<ins>std::</ins>for_each(<ins>std::</ins>par_vec, std::begin(a), std::end(a), [&amp;](int) {
   m.lock();
   ++x;
   m.unlock();
@@ -2200,7 +2200,7 @@ for_each(par_vec, std::begin(a), std::end(a), [&amp;](int) {
     
 
     <section>
-      <header><span class="section-number">20.5</span> <h1 data-bookmark-label="20.5 Parallel algorithm exceptions">Parallel algorithm exceptions</h1> <span style="float:right"><a href="#algorithms.parallel.exceptions">[algorithms.parallel.exceptions]</a></span></header>
+      <header><span class="section-number">25.5</span> <h1 data-bookmark-label="25.5 Parallel algorithm exceptions">Parallel algorithm exceptions</h1> <span style="float:right"><a href="#algorithms.parallel.exceptions">[algorithms.parallel.exceptions]</a></span></header>
       
       
       <p para_num="1" id="algorithms.parallel.exceptions.1">
@@ -2271,7 +2271,7 @@ while
     
 
     <section>
-      <header><span class="section-number">20.6</span> <h1 data-bookmark-label="20.6 ExecutionPolicy algorithm overloads"><code>ExecutionPolicy</code> algorithm overloads</h1> <span style="float:right"><a href="#algorithms.parallel.overloads">[algorithms.parallel.overloads]</a></span></header>
+      <header><span class="section-number">25.6</span> <h1 data-bookmark-label="25.6 ExecutionPolicy algorithm overloads"><code>ExecutionPolicy</code> algorithm overloads</h1> <span style="float:right"><a href="#algorithms.parallel.overloads">[algorithms.parallel.overloads]</a></span></header>
       
       
 

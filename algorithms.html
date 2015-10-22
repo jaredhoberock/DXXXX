@@ -1,7 +1,7 @@
 <h1>Introducing general parallel algorithms content</h1>
 <p>Add the following subclause to Clause 25:</p>
 
-<cxx-clause id = algorithms>
+<cxx-clause id = algorithms number = 25>
   <h1>Algorithms library</h1>
 
   <cxx-section id = algorithms.parallel number = 2>
@@ -12,7 +12,7 @@
 
     <cxx-section id = algorithms.parallel.defns>
       <h1>Terms and definitions</h1>
-        <p>A <dfn>parallel algorithm</dfn> is a function template described by this Technical Specification declared in namespace <code>std::experimental::parallel::v1</code> with a formal template parameter named <code>ExecutionPolicy</code>.</p>
+        <p>A <dfn>parallel algorithm</dfn> is a function template <del>described by this Technical Specification declared in namespace <code>std::experimental::parallel::v1</code></del><ins>listed in <cxx-ref to="tab.parallel.algorithms"></cxx-ref></ins> with a formal template parameter named <code>ExecutionPolicy</code>.</p>
 
         <p>
           Parallel algorithms access objects indirectly accessible via their arguments by invoking the following functions:
@@ -99,10 +99,10 @@
         </cxx-note>
       </p>
 
-      <cxx-example><pre>using namespace std::experimental::parallel;
+      <cxx-example><pre><del>using namespace std::experimental::parallel;</del>
 int a[] = {0,1};
 std::vector&lt;int&gt; v;
-for_each(par, std::begin(a), std::end(a), [&amp;](int i) {
+<ins>std::</ins>for_each(<ins>std::</ins>par, std::begin(a), std::end(a), [&amp;](int i) {
   v.push_back(i*2+1);
 });
 </pre>
@@ -113,10 +113,10 @@ for_each(par, std::begin(a), std::end(a), [&amp;](int i) {
 </pre>
 
       <cxx-example><pre>
-using namespace std::experimental::parallel;
+<del>using namespace std::experimental::parallel;</del>
 std::atomic&lt;int&gt; x = 0;
 int a[] = {1,2};
-for_each(par, std::begin(a), std::end(a), [&amp;](int n) {
+<ins>std::</ins>for_each(<ins>std::</ins>par, std::begin(a), std::end(a), [&amp;](int n) {
   x.fetch_add(1, std::memory_order_relaxed);
   // spin wait for another iteration to change the value of x
   while (x.load(std::memory_order_relaxed) == 1) { }
@@ -128,11 +128,11 @@ for_each(par, std::begin(a), std::end(a), [&amp;](int n) {
 </pre>
 
       <cxx-example><pre>
-using namespace std::experimental::parallel;
+<del>using namespace std::experimental::parallel;</del>
 int x=0;
 std::mutex m;
 int a[] = {1,2};
-for_each(par, std::begin(a), std::end(a), [&amp;](int) {
+<ins>std::</ins>for_each(<ins>std::</ins>par, std::begin(a), std::end(a), [&amp;](int) {
   m.lock();
   ++x;
   m.unlock();
@@ -178,11 +178,11 @@ for_each(par, std::begin(a), std::end(a), [&amp;](int) {
       </p>
 
       <cxx-example><pre>
-using namespace std::experimental::parallel;
+<del>using namespace std::experimental::parallel;</del>
 int x=0;
 std::mutex m;
 int a[] = {1,2};
-for_each(par_vec, std::begin(a), std::end(a), [&amp;](int) {
+<ins>std::</ins>for_each(<ins>std::</ins>par_vec, std::begin(a), std::end(a), [&amp;](int) {
   m.lock();
   ++x;
   m.unlock();
