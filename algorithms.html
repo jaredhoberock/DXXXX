@@ -1,7 +1,6 @@
 <h1>Introducing general parallel algorithms content</h1>
 <p>Add the following subclause to Clause 25:</p>
 
-<ins>
 <cxx-clause id = algorithms>
   <h1>Algorithms library</h1>
 
@@ -427,7 +426,6 @@ for_each(par_vec, std::begin(a), std::end(a), [&amp;](int) {
     </cxx-section>
   </cxx-section>
 </cxx-clause>
-</ins>
 
 <h1>Modifications to header synopses</h1>
 For each algorithm listed in <cxx-ref to="tab.parallel.algorithms"></cxx-ref>, add the signature of a parallel algorithm overload to the corresponding synopsis in Clause 20, Clause 25, or Clause 26.
@@ -436,7 +434,6 @@ For each algorithm listed in <cxx-ref to="tab.parallel.algorithms"></cxx-ref>, a
 
 Add <code>for_each</code> with <code>ExecutionPolicy</code>, sequential <code>for_each_n</code>, and <code>for_each_n</code> with <code>ExecutionPolicy</code> to subclause 4.3.2:
 
-<ins>
 <cxx-clause id = algorithms number = 25>
   <h1>Algorithms library</h1>
 
@@ -546,20 +543,16 @@ InputIterator for_each_n(ExecutionPolicy &amp;&amp; exec,
     </cxx-section>
   </cxx-section>
 </cxx-clause>
-</ins>
 
 <h1>Introducing numeric parallel algorithms definitions</h1>
 <p>Insert the following entry to Table 113:</p>
 
-<ins>
 <table>
   <tr><td>26.2</td><td>Definitions</td><td></td></tr>
 </table>
-</ins>
 
 <p>Insert the following subclause to Clause 26:</p>
 
-<ins>
 <cxx-clause id = numerics number = 26>
   <h1>Numerics library</h1>
 
@@ -598,7 +591,6 @@ InputIterator for_each_n(ExecutionPolicy &amp;&amp; exec,
     </p>
   </cxx-section>
 </cxx-clause>
-</ins>
 
 <h1>Specify new numeric algorithms</h1>
 
@@ -606,7 +598,6 @@ Add <code>reduce</code>, <code>exclusive_scan</code>, <code>inclusive_scan</code
 
 The innermost section number is given as NaN to allow editorial discretion.
 
-<ins>
 <cxx-clause id = numerics number = 26>
   <h1>Numerics library</h1>
 
@@ -876,5 +867,4 @@ OutputIterator transform_inclusive_scan(InputIterator first, InputIterator last,
     </cxx-section>
   </cxx-section>
 </cxx-clause>
-</ins>
 
