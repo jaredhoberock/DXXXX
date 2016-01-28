@@ -90,10 +90,11 @@
         The invocations of element access functions in parallel algorithms invoked with an execution
         policy object of type <code>parallel_execution_policy</code> are permitted to execute in an
         unordered fashion in either the invoking thread or in a thread implicitly created by the library
-        to support parallel algorithm execution. Any such invocations executing in the same thread are
-        indeterminately sequenced with respect to each other. 
+        to support parallel algorithm execution.<del> Any such invocations executing in the same thread are
+        indeterminately sequenced with respect to each other.</del>
 
         <cxx-note>
+          <ins>Any such invocations executing in the same thread are indeterminately sequenced with respect to each other (1.9).</ins>
           It is the caller's responsibility to ensure correctness, for example that the invocation does
           not introduce data races or deadlocks.
         </cxx-note>

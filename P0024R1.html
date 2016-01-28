@@ -1203,7 +1203,15 @@ we expect them to change at the Library Working Group's discretion.
         </li>
 
         <li>
+          Use the term "unspecified" in <tt>reduce</tt>'s note. 
+        </li>
+
+        <li>
           Replace use of "sequential order" with "indeterminately sequenced" in S 25.4p2.
+        </li>
+
+        <li>
+          Turn redundant restatement of 1.9 in S 25.4p3 into a note.
         </li>
       </ul>
     </li>
@@ -2070,11 +2078,12 @@ template argument, as per 24.2.7, as implied by the name of the
         The invocations of element access functions in parallel algorithms invoked with an execution
         policy object of type <code>parallel_execution_policy</code> are permitted to execute in an
         unordered fashion in either the invoking thread or in a thread implicitly created by the library
-        to support parallel algorithm execution. Any such invocations executing in the same thread are
-        indeterminately sequenced with respect to each other. 
+        to support parallel algorithm execution.<del> Any such invocations executing in the same thread are
+        indeterminately sequenced with respect to each other.</del>
 
         <cxx-note><span class="nowrap">[ <em>Note:</em></span>
     
+          <ins>Any such invocations executing in the same thread are indeterminately sequenced with respect to each other (1.9).</ins>
           It is the caller's responsibility to ensure correctness, for example that the invocation does
           not introduce data races or deadlocks.
         
