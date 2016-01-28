@@ -1211,7 +1211,11 @@ we expect them to change at the Library Working Group's discretion.
         </li>
 
         <li>
-          Turn redundant restatement of 1.9 in S 25.4p3 into a note.
+          Eliminate the "in an unordered fashion" phrase (which was redundant and undefined) from S 25.4p3.
+        </li>
+
+        <li>
+          Add a cross-reference to (1.9) in S 25.4p3.
         </li>
       </ul>
     </li>
@@ -2076,14 +2080,13 @@ template argument, as per 24.2.7, as implied by the name of the
 
       <p para_num="3" id="algorithms.parallel.exec.3">
         The invocations of element access functions in parallel algorithms invoked with an execution
-        policy object of type <code>parallel_execution_policy</code> are permitted to execute in an
-        unordered fashion in either the invoking thread or in a thread implicitly created by the library
-        to support parallel algorithm execution.<del> Any such invocations executing in the same thread are
-        indeterminately sequenced with respect to each other.</del>
+        policy object of type <code>parallel_execution_policy</code> are permitted to execute <del>in an
+        unordered fashion</del> in either the invoking thread or in a thread implicitly created by the library
+        to support parallel algorithm execution. Any such invocations executing in the same thread are
+        indeterminately sequenced <ins>(1.9)</ins> with respect to each other.
 
         <cxx-note><span class="nowrap">[ <em>Note:</em></span>
     
-          <ins>Any such invocations executing in the same thread are indeterminately sequenced with respect to each other (1.9).</ins>
           It is the caller's responsibility to ensure correctness, for example that the invocation does
           not introduce data races or deadlocks.
         
