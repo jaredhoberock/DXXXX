@@ -1197,6 +1197,14 @@ we expect them to change at the Library Working Group's discretion.
         <li>
           Introduce Acknowledgments section.
         </li>
+
+        <li>
+          Eliminate unwarranted explanations in <tt>for_each</tt>'s notes.
+        </li>
+
+        <li>
+          Replace use of "sequential order" with "indeterminately sequenced" in S 25.4p2.
+        </li>
       </ul>
     </li>
   </ul>
@@ -2054,8 +2062,8 @@ template argument, as per 24.2.7, as implied by the name of the
 
       <p para_num="2" id="algorithms.parallel.exec.2">
         The invocations of element access functions in parallel algorithms invoked with an execution
-        policy object of type <code>sequential_execution_policy</code> execute in sequential order in
-        the calling thread.
+        policy object of type <code>sequential_execution_policy</code> <del>execute in sequential order in</del>
+        <ins>are indeterminately sequenced (1.9)</ins> the calling thread.
       </p>
 
       <p para_num="3" id="algorithms.parallel.exec.3">
@@ -2840,8 +2848,11 @@ T reduce(InputIterator first, InputIterator last, T init,
         <cxx-notes para_num="9" id="reduce.9">
     
     <dt>Notes:</dt><dd>
-          The primary difference between <code>reduce</code> and <code>accumulate</code> is that the behavior
-          of <code>reduce</code> may be non-deterministic for non-associative or non-commutative <code>binary_op</code>.
+          <del>The primary difference between <code>reduce</code> and <code>accumulate</code> is that the behavior
+          of <code>reduce</code> may be non-deterministic for non-associative or non-commutative <code>binary_op</code>.</del>
+
+          <ins>The difference between <code>reduce</code> and <code>accumulate</code> is that <code>reduce</code>
+          applies <code>binary_op</code> in an unspecified order, which yields a non-deterministic result for non-associative or non-commutative <code>binary_op</code> such as floating-point addition.</ins>
         </dd>
   </cxx-notes>
       
