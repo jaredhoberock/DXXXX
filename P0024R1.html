@@ -1143,6 +1143,16 @@ we expect them to change at the Library Working Group's discretion.
   <p></p>
 </section>
 
+<ins>
+<section>
+  <h1>Acknowledgements</h1>
+  
+  <p>
+    Thanks to Jens Maurer for wording suggestions.
+  </p>
+</section>
+</ins>
+
 <section>
   <h1>References</h1>
 
@@ -1178,6 +1188,14 @@ we expect them to change at the Library Working Group's discretion.
 
         <li>
           Eliminate anachronistic use of TS-specific namespaces.
+        </li>
+
+        <li>
+          Eliminate NaN-numbered sections and number sequentially.
+        </li>
+
+        <li>
+          Introduce Acknowledgments section.
         </li>
       </ul>
     </li>
@@ -1342,27 +1360,27 @@ we expect them to change at the Library Working Group's discretion.
         
           <ol>
             
-              <li><span class="marker">26.7.NaN</span><a href="#reduce">Reduce</a>
+              <li><span class="marker">26.7.1</span><a href="#reduce">Reduce</a>
         
       </li>
             
-              <li><span class="marker">26.7.NaN</span><a href="#exclusive.scan">Exclusive scan</a>
+              <li><span class="marker">26.7.2</span><a href="#exclusive.scan">Exclusive scan</a>
         
       </li>
             
-              <li><span class="marker">26.7.NaN</span><a href="#inclusive.scan">Inclusive scan</a>
+              <li><span class="marker">26.7.3</span><a href="#inclusive.scan">Inclusive scan</a>
         
       </li>
             
-              <li><span class="marker">26.7.NaN</span><a href="#transform.reduce">Transform reduce</a>
+              <li><span class="marker">26.7.4</span><a href="#transform.reduce">Transform reduce</a>
         
       </li>
             
-              <li><span class="marker">26.7.NaN</span><a href="#transform.exclusive.scan">Transform exclusive scan</a>
+              <li><span class="marker">26.7.5</span><a href="#transform.exclusive.scan">Transform exclusive scan</a>
         
       </li>
             
-              <li><span class="marker">26.7.NaN</span><a href="#transform.inclusive.scan">Transform inclusive scan</a>
+              <li><span class="marker">26.7.6</span><a href="#transform.inclusive.scan">Transform inclusive scan</a>
         
       </li>
             
@@ -2722,7 +2740,7 @@ InputIterator for_each_n(ExecutionPolicy &amp;&amp; exec,
 
 Add <code>reduce</code>, <code>exclusive_scan</code>, <code>inclusive_scan</code>, <code>transform_reduce</code>, <code>transform_exclusive_scan</code>, and <code>transform_inclusive_scan</code> to Clause 26.7.
 
-The innermost section number is given as NaN to allow editorial discretion.
+<del>The innermost section number is given as NaN to allow editorial discretion.</del>
 
 <cxx-clause id="numerics" number="26">
     
@@ -2740,11 +2758,11 @@ The innermost section number is given as NaN to allow editorial discretion.
       
     
 
-    <cxx-section id="reduce" number="?">
+    <cxx-section id="reduce">
     
 
     <section>
-      <header><span class="section-number">26.7.NaN</span> <h1 data-bookmark-label="26.7.NaN Reduce">Reduce</h1> <span style="float:right"><a href="#reduce">[reduce]</a></span></header>
+      <header><span class="section-number">26.7.1</span> <h1 data-bookmark-label="26.7.1 Reduce">Reduce</h1> <span style="float:right"><a href="#reduce">[reduce]</a></span></header>
       
       
 
@@ -2837,7 +2855,7 @@ T reduce(InputIterator first, InputIterator last, T init,
     
 
     <section>
-      <header><span class="section-number">26.7.NaN</span> <h1 data-bookmark-label="26.7.NaN Exclusive scan">Exclusive scan</h1> <span style="float:right"><a href="#exclusive.scan">[exclusive.scan]</a></span></header>
+      <header><span class="section-number">26.7.2</span> <h1 data-bookmark-label="26.7.2 Exclusive scan">Exclusive scan</h1> <span style="float:right"><a href="#exclusive.scan">[exclusive.scan]</a></span></header>
       
       
 
@@ -2923,7 +2941,7 @@ OutputIterator exclusive_scan(InputIterator first, InputIterator last,
     
 
     <section>
-      <header><span class="section-number">26.7.NaN</span> <h1 data-bookmark-label="26.7.NaN Inclusive scan">Inclusive scan</h1> <span style="float:right"><a href="#inclusive.scan">[inclusive.scan]</a></span></header>
+      <header><span class="section-number">26.7.3</span> <h1 data-bookmark-label="26.7.3 Inclusive scan">Inclusive scan</h1> <span style="float:right"><a href="#inclusive.scan">[inclusive.scan]</a></span></header>
       
       
 
@@ -3014,7 +3032,7 @@ OutputIterator inclusive_scan(InputIterator first, InputIterator last,
     
 
     <section>
-      <header><span class="section-number">26.7.NaN</span> <h1 data-bookmark-label="26.7.NaN Transform reduce">Transform reduce</h1> <span style="float:right"><a href="#transform.reduce">[transform.reduce]</a></span></header>
+      <header><span class="section-number">26.7.4</span> <h1 data-bookmark-label="26.7.4 Transform reduce">Transform reduce</h1> <span style="float:right"><a href="#transform.reduce">[transform.reduce]</a></span></header>
       
       
 
@@ -3067,7 +3085,7 @@ T transform_reduce(InputIterator first, InputIterator last,
     
 
     <section>
-      <header><span class="section-number">26.7.NaN</span> <h1 data-bookmark-label="26.7.NaN Transform exclusive scan">Transform exclusive scan</h1> <span style="float:right"><a href="#transform.exclusive.scan">[transform.exclusive.scan]</a></span></header>
+      <header><span class="section-number">26.7.5</span> <h1 data-bookmark-label="26.7.5 Transform exclusive scan">Transform exclusive scan</h1> <span style="float:right"><a href="#transform.exclusive.scan">[transform.exclusive.scan]</a></span></header>
       
       
 
@@ -3135,7 +3153,7 @@ OutputIterator transform_exclusive_scan(InputIterator first, InputIterator last,
     
 
     <section>
-      <header><span class="section-number">26.7.NaN</span> <h1 data-bookmark-label="26.7.NaN Transform inclusive scan">Transform inclusive scan</h1> <span style="float:right"><a href="#transform.inclusive.scan">[transform.inclusive.scan]</a></span></header>
+      <header><span class="section-number">26.7.6</span> <h1 data-bookmark-label="26.7.6 Transform inclusive scan">Transform inclusive scan</h1> <span style="float:right"><a href="#transform.inclusive.scan">[transform.inclusive.scan]</a></span></header>
       
       
 
