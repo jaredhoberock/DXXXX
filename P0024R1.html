@@ -2539,7 +2539,7 @@ void for_each(ExecutionPolicy&amp;&amp; exec,
         <cxx-notes para_num="5" id="alg.foreach.5">
     
     <dt>Notes:</dt><dd>
-          Unlike its sequential form, the parallel overload of <code>for_each</code> does not return a copy of
+          <del>Unlike its sequential form, t</del><ins>T</ins>he parallel overload of <code>for_each</code> does not return a copy of
           its <code>Function</code> parameter, since parallelization may not permit efficient state
           accumulation.
         </dd>
@@ -2547,7 +2547,7 @@ void for_each(ExecutionPolicy&amp;&amp; exec,
         <cxx-requires para_num="6" id="alg.foreach.6">
     
     <dt>Requires:</dt><dd>
-          Unlike its sequential form, the parallel overload of <code>for_each</code> requires
+          <del>Unlike its sequential form, t</del><ins>T</ins>he parallel overload of <code>for_each</code> requires
           <code>Function</code> to meet the requirements of <code>CopyConstructible</code>.
         </dd>
   </cxx-requires>

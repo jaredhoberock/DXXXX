@@ -468,12 +468,12 @@ void for_each(ExecutionPolicy&amp;&amp; exec,
         </cxx-remarks>
 
         <cxx-notes>
-          Unlike its sequential form, the parallel overload of <code>for_each</code> does not return a copy of
+          <del>Unlike its sequential form, t</del><ins>T</ins>he parallel overload of <code>for_each</code> does not return a copy of
           its <code>Function</code> parameter, since parallelization may not permit efficient state
           accumulation.
         </cxx-notes>
         <cxx-requires>
-          Unlike its sequential form, the parallel overload of <code>for_each</code> requires
+          <del>Unlike its sequential form, t</del><ins>T</ins>he parallel overload of <code>for_each</code> requires
           <code>Function</code> to meet the requirements of <code>CopyConstructible</code>.
         </cxx-requires>
       </cxx-function>
