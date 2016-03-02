@@ -220,7 +220,7 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
       <p>
         During the execution of a standard parallel algorithm, 
         if temporary memory resources are required and none are available,
-        the algorithm throws a <code>std::bad_alloc</code> exception.
+        the algorithm throws a <code><del>std::</del>bad_alloc</code> exception.
       </p>
 
       <p>
@@ -231,7 +231,7 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
         <ul>
           <li>
             If the execution policy object is of type <code>class parallel_vector_execution_policy</code>,
-            <code>std::terminate</code> shall be called.
+            <code><del>std::</del>terminate<ins>()</ins></code> shall be called.
           </li>
 
           <li>
@@ -248,13 +248,13 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
 
             <p>
               <cxx-note>These guarantees imply that, unless the algorithm has failed to allocate memory and exits via
-              <code>std::bad_alloc</code>, all exceptions thrown during the execution of the algorithm are communicated to the
+              <code><del>std::</del>bad_alloc</code>, all exceptions thrown during the execution of the algorithm are communicated to the
               caller. It is unspecified whether an algorithm implementation will "forge ahead" after encountering and capturing
               a user exception.</cxx-note>
             </p>
 
             <p>
-              <cxx-note>The algorithm may exit via the <code>std::bad_alloc</code> exception even if one or more user-provided
+              <cxx-note>The algorithm may exit via the <code><del>std::</del>bad_alloc</code> exception even if one or more user-provided
               function objects have exited via an exception. For example, this can happen when an algorithm fails to allocate memory while
               creating or adding elements to the <code>exception_list</code> object.</cxx-note>
             </p>
