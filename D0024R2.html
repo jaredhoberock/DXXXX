@@ -1217,6 +1217,27 @@ we expect them to change at the Library Working Group's discretion.
         </li>
       </ul>
     </li>
+
+    <ins>
+    <li>
+      D0024R1
+
+      <ul>
+        <li>
+          Eliminate greenlining.
+        </li>
+
+        <li>
+          Eliminate dynamic execution_policy class.
+        </li>
+
+        <li>
+          Incorporate LWG's guidance on wording.
+        </li>
+      </ul>
+
+    </li>
+    </ins>
   </ul>
 </section>
 
@@ -1262,23 +1283,7 @@ we expect them to change at the Library Working Group's discretion.
         
       </li>
             
-              <li><span class="marker">20.15.7</span><a href="#execpol.dynamic">Dynamic execution policy</a>
-        
-          <ol>
-            
-              <li><span class="marker">20.15.7.1</span><a href="#parallel.execpol.con">execution_policy construct/assign</a>
-        
-      </li>
-            
-              <li><span class="marker">20.15.7.2</span><a href="#parallel.execpol.access">execution_policy object access</a>
-        
-      </li>
-            
-          </ol>
-        
-      </li>
-            
-              <li><span class="marker">20.15.8</span><a href="#parallel.execpol.objects">Execution policy objects</a>
+              <li><span class="marker">20.15.7</span><a href="#parallel.execpol.objects">Execution policy objects</a>
         
       </li>
             
@@ -1475,6 +1480,7 @@ sort(par, v.begin(), v.end());
 // permitting vectorization as well
 sort(par_vec, v.begin(), v.end());
 
+<del>
 // sort with dynamically-selected execution
 size_t threshold = ...
 execution_policy exec = seq;
@@ -1483,7 +1489,8 @@ if (v.size() &gt; threshold)
   exec = par;
 }
 
-sort(exec, v.begin(), v.end());</code></pre>
+sort(exec, v.begin(), v.end());
+</del></code></pre>
   </cxx-codeblock>
         
     <span class="nowrap">— <em>end example</em> ]</span>
@@ -1525,8 +1532,10 @@ sort(exec, v.begin(), v.end());</code></pre>
   <cxx-ref insynopsis="" to="execpol.vec">// <i><a title="execpol.vec" href="#execpol.vec">20.15.6</a>, Parallel+Vector execution policy</i></cxx-ref>
   class parallel_vector_execution_policy;
 
-  <cxx-ref insynopsis="" to="execpol.dynamic">// <i><a title="execpol.dynamic" href="#execpol.dynamic">20.15.7</a>, Dynamic execution policy</i></cxx-ref>
+  <del>
+  <cxx-ref insynopsis="" to="execpol.dynamic">// <i><a title="execpol.dynamic" href="#execpol.dynamic">?</a>, Dynamic execution policy</i></cxx-ref>
   class execution_policy;
+  </del>
 }</code></pre>
   </cxx-codeblock>
     
@@ -1621,22 +1630,23 @@ execution may be vectorized and parallelized.</p>
     </section>
   </cxx-section>
 
+    <del>
     <cxx-section id="execpol.dynamic">
     
 
     <section>
-      <header><span class="section-number">20.15.7</span> <h1 data-bookmark-label="20.15.7 Dynamic execution policy">Dynamic execution policy</h1> <span style="float:right"><a href="#execpol.dynamic">[execpol.dynamic]</a></span></header>
+      <header><span class="section-number">?</span> <h1>Dynamic execution policy</h1> <span style="float:right"><a href="#execpol.dynamic">[execpol.dynamic]</a></span></header>
       
       
 
 <pre>class execution_policy
 {
   public:
-    <cxx-ref insynopsis="" to="parallel.execpol.con">// <i><a title="parallel.execpol.con" href="#parallel.execpol.con">20.15.7.1</a>, execution_policy construct/assign</i></cxx-ref>
+    <cxx-ref insynopsis="" to="parallel.execpol.con">// <i><a title="parallel.execpol.con" href="#parallel.execpol.con">?</a>, execution_policy construct/assign</i></cxx-ref>
     template&lt;class T&gt; execution_policy(const T&amp; exec);
     template&lt;class T&gt; execution_policy&amp; operator=(const T&amp; exec);
 
-    <cxx-ref insynopsis="" to="parallel.execpol.access">// <i><a title="parallel.execpol.access" href="#parallel.execpol.access">20.15.7.2</a>, execution_policy object access</i></cxx-ref>
+    <cxx-ref insynopsis="" to="parallel.execpol.access">// <i><a title="parallel.execpol.access" href="#parallel.execpol.access">?</a>, execution_policy object access</i></cxx-ref>
     const type_info&amp; type() const noexcept;
     template&lt;class T&gt; T* get() noexcept;
     template&lt;class T&gt; const T* get() const noexcept;
@@ -1672,7 +1682,7 @@ std::sort(exec, std::begin(sort_me), std::end(sort_me));</pre>
     
 
     <section>
-      <header><span class="section-number">20.15.7.1</span> <h1 data-bookmark-label="20.15.7.1 execution_policy construct/assign"><code>execution_policy</code> construct/assign</h1> <span style="float:right"><a href="#parallel.execpol.con">[parallel.execpol.con]</a></span></header>
+      <header><span class="section-number">?</span> <h1><code>execution_policy</code> construct/assign</h1> <span style="float:right"><a href="#parallel.execpol.con">[parallel.execpol.con]</a></span></header>
       
         
 
@@ -1728,7 +1738,7 @@ std::sort(exec, std::begin(sort_me), std::end(sort_me));</pre>
     
 
     <section>
-      <header><span class="section-number">20.15.7.2</span> <h1 data-bookmark-label="20.15.7.2 execution_policy object access"><code>execution_policy</code> object access</h1> <span style="float:right"><a href="#parallel.execpol.access">[parallel.execpol.access]</a></span></header>
+      <header><span class="section-number">?</span> <h1><code>execution_policy</code> object access</h1> <span style="float:right"><a href="#parallel.execpol.access">[parallel.execpol.access]</a></span></header>
       
         
 
@@ -1777,12 +1787,13 @@ std::sort(exec, std::begin(sort_me), std::end(sort_me));</pre>
     
     </section>
   </cxx-section>
+    </del>
 
     <cxx-section id="parallel.execpol.objects">
     
 
     <section>
-      <header><span class="section-number">20.15.8</span> <h1 data-bookmark-label="20.15.8 Execution policy objects">Execution policy objects</h1> <span style="float:right"><a href="#parallel.execpol.objects">[parallel.execpol.objects]</a></span></header>
+      <header><span class="section-number">20.15.7</span> <h1 data-bookmark-label="20.15.7 Execution policy objects">Execution policy objects</h1> <span style="float:right"><a href="#parallel.execpol.objects">[parallel.execpol.objects]</a></span></header>
       
       
   
@@ -2212,12 +2223,14 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
     <span class="nowrap">— <em>end note</em> ]</span>
   </cxx-note>
 
-      <p para_num="6" id="algorithms.parallel.exec.6">
+      <del>
+      <p>
         Algorithms invoked with an execution policy object of type <code>execution_policy</code>
         execute internally as if invoked with the contained execution policy object.
       </p>
+      </del>
 
-      <p para_num="7" id="algorithms.parallel.exec.7">
+      <p para_num="6" id="algorithms.parallel.exec.6">
         The semantics of parallel algorithms invoked with an execution policy object of
         implementation-defined type are implementation-defined.
       </p>

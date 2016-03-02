@@ -38,6 +38,7 @@ sort(par, v.begin(), v.end());
 // permitting vectorization as well
 sort(par_vec, v.begin(), v.end());
 
+<del>
 // sort with dynamically-selected execution
 size_t threshold = ...
 execution_policy exec = seq;
@@ -47,6 +48,7 @@ if (v.size() &gt; threshold)
 }
 
 sort(exec, v.begin(), v.end());
+</del>
           </cxx-codeblock>
         </cxx-example><pre>
 </pre>
@@ -76,8 +78,10 @@ namespace std {
   <cxx-ref insynopsis="" to="execpol.vec"></cxx-ref>
   class parallel_vector_execution_policy;
 
+  <del>
   <cxx-ref insynopsis="" to="execpol.dynamic"></cxx-ref>
   class execution_policy;
+  </del>
 }
         </cxx-codeblock>
     </cxx-section>
@@ -132,6 +136,7 @@ class parallel_vector_execution_policy{ <i>unspecified</i> };
       <p>The class <code>class parallel_vector_execution_policy</code> is an execution policy type used as a unique type to disambiguate parallel algorithm overloading and indicate that a parallel algorithm's execution may be vectorized and parallelized.</p>
     </cxx-section>
 
+    <del>
     <cxx-section id = "execpol.dynamic">
       <h1>Dynamic execution policy</h1>
 
@@ -214,6 +219,7 @@ std::sort(exec, std::begin(sort_me), std::end(sort_me));</pre>
         </cxx-function>
       </cxx-section>
     </cxx-section>
+    </del>
 
     <cxx-section id="parallel.execpol.objects">
       <h1>Execution policy objects</h1>
