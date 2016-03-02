@@ -12,7 +12,7 @@
 
     <cxx-section id = algorithms.parallel.defns>
       <h1>Terms and definitions</h1>
-        <p>A <dfn>parallel algorithm</dfn> is a function template <del>described by this Technical Specification declared in namespace <code>std::experimental::parallel::v1</code></del><ins>listed in <cxx-ref to="tab.parallel.algorithms"></cxx-ref></ins> with a formal template parameter named <code>ExecutionPolicy</code>.</p>
+        <p>A <dfn>parallel algorithm</dfn> is a function template listed in <cxx-ref to="tab.parallel.algorithms"></cxx-ref> with a formal template parameter named <code>ExecutionPolicy</code>.</p>
 
         <p>
           Parallel algorithms access objects indirectly accessible via their arguments by invoking the following functions:
@@ -82,14 +82,13 @@
 
       <p>
         The invocations of element access functions in parallel algorithms invoked with an execution
-        policy object of type <code>sequential_execution_policy</code> <del>execute in sequential order in</del>
-        <ins>are indeterminately sequenced (1.9)</ins> the calling thread.
+        policy object of type <code>sequential_execution_policy</code> 
+        are indeterminately sequenced (1.9) the calling thread.
       </p>
 
       <p>
         The invocations of element access functions in parallel algorithms invoked with an execution
-        policy object of type <code>parallel_execution_policy</code> are permitted to execute <del>in an
-        unordered fashion</del> in either the invoking thread or in a thread implicitly created by the library
+        policy object of type <code>parallel_execution_policy</code> are permitted to execute in either the invoking thread or in a thread implicitly created by the library
         to support parallel algorithm execution. Any such invocations executing in the same thread are
         indeterminately sequenced <ins>(1.9)</ins> with respect to each other.
 
@@ -99,10 +98,10 @@
         </cxx-note>
       </p>
 
-      <cxx-example><pre><del>using namespace std::experimental::parallel;</del>
+      <cxx-example><pre>
 int a[] = {0,1};
 std::vector&lt;int&gt; v;
-<ins>std::</ins>for_each(<ins>std::</ins>par, std::begin(a), std::end(a), [&amp;](int i) {
+std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int i) {
   v.push_back(i*2+1);
 });
 </pre>
@@ -113,10 +112,9 @@ std::vector&lt;int&gt; v;
 </pre>
 
       <cxx-example><pre>
-<del>using namespace std::experimental::parallel;</del>
 std::atomic&lt;int&gt; x = 0;
 int a[] = {1,2};
-<ins>std::</ins>for_each(<ins>std::</ins>par, std::begin(a), std::end(a), [&amp;](int n) {
+std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int n) {
   x.fetch_add(1, std::memory_order_relaxed);
   // spin wait for another iteration to change the value of x
   while (x.load(std::memory_order_relaxed) == 1) { }
@@ -128,11 +126,10 @@ int a[] = {1,2};
 </pre>
 
       <cxx-example><pre>
-<del>using namespace std::experimental::parallel;</del>
 int x=0;
 std::mutex m;
 int a[] = {1,2};
-<ins>std::</ins>for_each(<ins>std::</ins>par, std::begin(a), std::end(a), [&amp;](int) {
+std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int) {
   m.lock();
   ++x;
   m.unlock();
@@ -178,11 +175,10 @@ int a[] = {1,2};
       </p>
 
       <cxx-example><pre>
-<del>using namespace std::experimental::parallel;</del>
 int x=0;
 std::mutex m;
 int a[] = {1,2};
-<ins>std::</ins>for_each(<ins>std::</ins>par_vec, std::begin(a), std::end(a), [&amp;](int) {
+std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
   m.lock();
   ++x;
   m.unlock();
@@ -468,12 +464,12 @@ void for_each(ExecutionPolicy&amp;&amp; exec,
         </cxx-remarks>
 
         <cxx-notes>
-          <del>Unlike its sequential form, t</del><ins>T</ins>he parallel overload of <code>for_each</code> does not return a copy of
+          The parallel overload of <code>for_each</code> does not return a copy of
           its <code>Function</code> parameter, since parallelization may not permit efficient state
           accumulation.
         </cxx-notes>
         <cxx-requires>
-          <del>Unlike its sequential form, t</del><ins>T</ins>he parallel overload of <code>for_each</code> requires
+          The parallel overload of <code>for_each</code> requires
           <code>Function</code> to meet the requirements of <code>CopyConstructible</code>.
         </cxx-requires>
       </cxx-function>
@@ -596,8 +592,6 @@ InputIterator for_each_n(ExecutionPolicy &amp;&amp; exec,
 
 Add <code>reduce</code>, <code>exclusive_scan</code>, <code>inclusive_scan</code>, <code>transform_reduce</code>, <code>transform_exclusive_scan</code>, and <code>transform_inclusive_scan</code> to Clause 26.7.
 
-<del>The innermost section number is given as NaN to allow editorial discretion.</del>
-
 <cxx-clause id = numerics number = 26>
   <h1>Numerics library</h1>
 
@@ -645,11 +639,8 @@ T reduce(InputIterator first, InputIterator last, T init,
         </cxx-complexity>
 
         <cxx-notes>
-          <del>The primary difference between <code>reduce</code> and <code>accumulate</code> is that the behavior
-          of <code>reduce</code> may be non-deterministic for non-associative or non-commutative <code>binary_op</code>.</del>
-
-          <ins>The difference between <code>reduce</code> and <code>accumulate</code> is that <code>reduce</code>
-          applies <code>binary_op</code> in an unspecified order, which yields a non-deterministic result for non-associative or non-commutative <code>binary_op</code> such as floating-point addition.</ins>
+          The difference between <code>reduce</code> and <code>accumulate</code> is that <code>reduce</code>
+          applies <code>binary_op</code> in an unspecified order, which yields a non-deterministic result for non-associative or non-commutative <code>binary_op</code> such as floating-point addition.
         </cxx-notes>
       </cxx-function>
     </cxx-section>

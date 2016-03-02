@@ -27,7 +27,7 @@ std::vector&lt;int&gt; v = ...
 // standard sequential sort
 std::sort(v.begin(), v.end());
 
-using namespace std<del>::experimental::parallel</del>;
+using namespace std;
 
 // explicitly sequential sort
 sort(seq, v.begin(), v.end());
@@ -156,7 +156,7 @@ class execution_policy
       <cxx-example>
         <pre>std::vector&lt;float&gt; sort_me = ...
         
-using namespace std<del>::experimental::parallel</del>;
+using namespace std;
 execution_policy exec = seq;
 
 if(sort_me.size() &gt; threshold)
@@ -224,7 +224,7 @@ constexpr parallel_execution_policy        par{};
 constexpr parallel_vector_execution_policy par_vec{};
 </pre>
 
-      <p>The header <code>&lt;<del>experimental/</del>execution_policy&gt;</code> declares a global object associated with each type of execution policy defined by this Technical Specification.</p>
+      <p>The header <code>&lt;execution_policy&gt;</code> declares a global object associated with each type of execution policy defined by this Technical Specification.</p>
     </cxx-section>
 
   </cxx-section>
