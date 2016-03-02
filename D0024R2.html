@@ -2247,7 +2247,7 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
       
       <p para_num="1" id="algorithms.parallel.exceptions.1">
         During the execution of a standard parallel algorithm, 
-        if temporary memory resources are required and none are available,
+        if temporary memory resources are required <ins>for parallelization</ins> and none are available,
         the algorithm throws a <code><del>std::</del>bad_alloc</code> exception.
       </p>
 
@@ -2258,14 +2258,14 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
 
         </p><ul>
           <li>
-            If the execution policy object is of type <code>class parallel_vector_execution_policy</code>,
-            <code><del>std::</del>terminate<ins>()</ins></code> shall be called.
+            If the execution policy object is of type <code><del>class </del>parallel_vector_execution_policy</code>,
+            <code><del>std::</del>terminate<ins>()</ins></code> <del>shall be</del><ins>is</ins> called.
           </li>
 
           <li>
             If the execution policy object is of type <code>sequential_execution_policy</code> or
             <code>parallel_execution_policy</code>, the execution of the algorithm exits via an exception. The
-            exception shall be an <code>exception_list</code> containing all uncaught exceptions thrown during
+            exception <del>shall</del><ins>will</ins> be an <code>exception_list</code> containing all uncaught exceptions thrown during
             the invocations of element access functions, or optionally the uncaught exception if there was only one.
 
             <p>
@@ -2599,7 +2599,14 @@ InputIterator for_each_n(InputIterator first, Size n,
         </dd>
   </cxx-requires>
 
-        <cxx-effects para_num="9" id="alg.foreach.9">
+        <cxx-requires para_num="9" id="alg.foreach.9">
+    
+    <dt>Requires:</dt><dd>
+          <ins><code>n &gt;= 0</code>.</ins>
+        </dd>
+  </cxx-requires>
+
+        <cxx-effects para_num="10" id="alg.foreach.10">
     
     <dt>Effects:</dt><dd>
           Applies <code>f</code> to the result of dereferencing every iterator in the range
@@ -2615,14 +2622,14 @@ InputIterator for_each_n(InputIterator first, Size n,
         </dd>
   </cxx-effects>
 
-        <cxx-returns para_num="10" id="alg.foreach.10">
+        <cxx-returns para_num="11" id="alg.foreach.11">
     
     <dt>Returns:</dt><dd>
-          <code>first + n</code> for non-negative values of <code>n</code> and <code>first</code> for negative values.
+          <code>first + n</code><del> for non-negative values of <code>n</code> and <code>first</code> for negative values</del>.
         </dd>
   </cxx-returns>
 
-        <cxx-remarks para_num="11" id="alg.foreach.11">
+        <cxx-remarks para_num="12" id="alg.foreach.12">
     
     <dt>Remarks:</dt><dd>
           If <code>f</code> returns a result, the result is ignored.
@@ -2632,7 +2639,7 @@ InputIterator for_each_n(InputIterator first, Size n,
     </dl>
   </cxx-function>
 
-      <cxx-function para_num="12" id="alg.foreach.12">
+      <cxx-function para_num="13" id="alg.foreach.13">
     
     <pre><code><cxx-signature>template&lt;class ExecutionPolicy,
       class InputIterator, class Size, class Function&gt;
@@ -2643,8 +2650,14 @@ InputIterator for_each_n(ExecutionPolicy &amp;&amp; exec,
     <dl>
       
         
+        <cxx-requires para_num="14" id="alg.foreach.14">
+    
+    <dt>Requires:</dt><dd>
+          <ins><code>n &gt;= 0</code>.</ins>
+        </dd>
+  </cxx-requires>
 
-        <cxx-effects para_num="13" id="alg.foreach.13">
+        <cxx-effects para_num="15" id="alg.foreach.15">
     
     <dt>Effects:</dt><dd>
           Applies <code>f</code> to the result of dereferencing every iterator in the range
@@ -2660,24 +2673,24 @@ InputIterator for_each_n(ExecutionPolicy &amp;&amp; exec,
         </dd>
   </cxx-effects>
 
-        <cxx-returns para_num="14" id="alg.foreach.14">
+        <cxx-returns para_num="16" id="alg.foreach.16">
     
     <dt>Returns:</dt><dd>
-        <code>first + n</code> for non-negative values of <code>n</code> and <code>first</code> for negative values.
+        <code>first + n</code><del> for non-negative values of <code>n</code> and <code>first</code> for negative values</del>.
         </dd>
   </cxx-returns>
 
-        <cxx-remarks para_num="15" id="alg.foreach.15">
+        <cxx-remarks para_num="17" id="alg.foreach.17">
     
     <dt>Remarks:</dt><dd>
           If <code>f</code> returns a result, the result is ignored.
         </dd>
   </cxx-remarks>
 
-        <cxx-notes para_num="16" id="alg.foreach.16">
+        <cxx-notes para_num="18" id="alg.foreach.18">
     
     <dt>Notes:</dt><dd>
-          Unlike its sequential form, the parallel overload of <code>for_each_n</code> requires
+          <del>Unlike its sequential form, t</del><ins>T</ins>he parallel overload of <code>for_each_n</code> requires
           <code>Function</code> to meet the requirements of <code>CopyConstructible</code>.
         </dd>
   </cxx-notes>
@@ -2797,7 +2810,7 @@ typename iterator_traits&lt;InputIterator&gt;::value_type
         <cxx-effects para_num="2" id="reduce.2">
     
     <dt>Effects:</dt><dd>
-          Same as <code>reduce(first, last, typename iterator_traits&lt;InputIterator&gt;::value_type{})</code>.
+          <del>Same as</del><ins>Equivalent to</ins> <code>reduce(first, last, typename iterator_traits&lt;InputIterator&gt;::value_type{})</code>.
         </dd>
   </cxx-effects>
       
@@ -2816,7 +2829,7 @@ T reduce(InputIterator first, InputIterator last, T init);</cxx-signature></code
         <cxx-effects para_num="4" id="reduce.4">
     
     <dt>Effects:</dt><dd>
-          Same as <code>reduce(first, last, init, plus&lt;&gt;())</code>.
+          <del>Same as</del><ins>Equivalent to</ins> <code>reduce(first, last, init, plus&lt;&gt;())</code>.
         </dd>
   </cxx-effects>
       
@@ -2891,7 +2904,7 @@ OutputIterator exclusive_scan(InputIterator first, InputIterator last,
         <cxx-effects para_num="2" id="exclusive.scan.2">
     
     <dt>Effects:</dt><dd>
-          Same as <code>exclusive_scan(first, last, result, init, plus&lt;&gt;())</code>.
+          <del>Same as</del><ins>Equivalent to</ins> <code>exclusive_scan(first, last, result, init, plus&lt;&gt;())</code>.
         </dd>
   </cxx-effects>
       
@@ -2976,7 +2989,7 @@ OutputIterator inclusive_scan(InputIterator first, InputIterator last,
         <cxx-effects para_num="2" id="inclusive.scan.2">
     
     <dt>Effects:</dt><dd>
-          Same as <code>inclusive_scan(first, last, result, plus&lt;&gt;())</code>.
+          <del>Same as</del><ins>Equivalent to</ins> <code>inclusive_scan(first, last, result, plus&lt;&gt;())</code>.
         </dd>
   </cxx-effects>
       

@@ -219,7 +219,7 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
       <h1>Parallel algorithm exceptions</h1>
       <p>
         During the execution of a standard parallel algorithm, 
-        if temporary memory resources are required and none are available,
+        if temporary memory resources are required <ins>for parallelization</ins> and none are available,
         the algorithm throws a <code><del>std::</del>bad_alloc</code> exception.
       </p>
 
@@ -230,14 +230,14 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
 
         <ul>
           <li>
-            If the execution policy object is of type <code>class parallel_vector_execution_policy</code>,
-            <code><del>std::</del>terminate<ins>()</ins></code> shall be called.
+            If the execution policy object is of type <code><del>class </del>parallel_vector_execution_policy</code>,
+            <code><del>std::</del>terminate<ins>()</ins></code> <del>shall be</del><ins>is</ins> called.
           </li>
 
           <li>
             If the execution policy object is of type <code>sequential_execution_policy</code> or
             <code>parallel_execution_policy</code>, the execution of the algorithm exits via an exception. The
-            exception shall be an <code>exception_list</code> containing all uncaught exceptions thrown during
+            exception <del>shall</del><ins>will</ins> be an <code>exception_list</code> containing all uncaught exceptions thrown during
             the invocations of element access functions, or optionally the uncaught exception if there was only one.
 
             <p>
@@ -489,6 +489,10 @@ InputIterator for_each_n(InputIterator first, Size n,
           </cxx-note>
         </cxx-requires>
 
+        <cxx-requires>
+          <ins><code>n >= 0</code>.</ins>
+        </cxx-requires>
+
         <cxx-effects>
           Applies <code>f</code> to the result of dereferencing every iterator in the range
           <code>[first,first + n)</code>, starting from <code>first</code> and proceeding to <code>first + n - 1</code>.
@@ -500,7 +504,7 @@ InputIterator for_each_n(InputIterator first, Size n,
         </cxx-effects>
 
         <cxx-returns>
-          <code>first + n</code> for non-negative values of <code>n</code> and <code>first</code> for negative values.
+          <code>first + n</code><del> for non-negative values of <code>n</code> and <code>first</code> for negative values</del>.
         </cxx-returns>
 
         <cxx-remarks>
@@ -514,6 +518,9 @@ InputIterator for_each_n(InputIterator first, Size n,
 InputIterator for_each_n(ExecutionPolicy &amp;&amp; exec,
                          InputIterator first, Size n,
                          Function f);</cxx-signature>
+        <cxx-requires>
+          <ins><code>n >= 0</code>.</ins>
+        </cxx-requires>
 
         <cxx-effects>
           Applies <code>f</code> to the result of dereferencing every iterator in the range
@@ -526,7 +533,7 @@ InputIterator for_each_n(ExecutionPolicy &amp;&amp; exec,
         </cxx-effects>
 
         <cxx-returns>
-        <code>first + n</code> for non-negative values of <code>n</code> and <code>first</code> for negative values.
+        <code>first + n</code><del> for non-negative values of <code>n</code> and <code>first</code> for negative values</del>.
         </cxx-returns>
 
         <cxx-remarks>
@@ -534,7 +541,7 @@ InputIterator for_each_n(ExecutionPolicy &amp;&amp; exec,
         </cxx-remarks>
 
         <cxx-notes>
-          Unlike its sequential form, the parallel overload of <code>for_each_n</code> requires
+          <del>Unlike its sequential form, t</del><ins>T</ins>he parallel overload of <code>for_each_n</code> requires
           <code>Function</code> to meet the requirements of <code>CopyConstructible</code>.
         </cxx-notes>
       </cxx-function>
@@ -609,7 +616,7 @@ typename iterator_traits&lt;InputIterator&gt;::value_type
     reduce(InputIterator first, InputIterator last);</cxx-signature>
 
         <cxx-effects>
-          Same as <code>reduce(first, last, typename iterator_traits&lt;InputIterator&gt;::value_type{})</code>.
+          <del>Same as</del><ins>Equivalent to</ins> <code>reduce(first, last, typename iterator_traits&lt;InputIterator&gt;::value_type{})</code>.
         </cxx-effects>
       </cxx-function>
 
@@ -618,7 +625,7 @@ typename iterator_traits&lt;InputIterator&gt;::value_type
 T reduce(InputIterator first, InputIterator last, T init);</cxx-signature>
 
         <cxx-effects>
-          Same as <code>reduce(first, last, init, plus&lt;&gt;())</code>.
+          <del>Same as</del><ins>Equivalent to</ins> <code>reduce(first, last, init, plus&lt;&gt;())</code>.
         </cxx-effects>
       </cxx-function>
 
@@ -657,7 +664,7 @@ OutputIterator exclusive_scan(InputIterator first, InputIterator last,
                               T init);</cxx-signature>
 
         <cxx-effects>
-          Same as <code>exclusive_scan(first, last, result, init, plus&lt;&gt;())</code>.
+          <del>Same as</del><ins>Equivalent to</ins> <code>exclusive_scan(first, last, result, init, plus&lt;&gt;())</code>.
         </cxx-effects>
       </cxx-function>
 
@@ -703,7 +710,7 @@ OutputIterator inclusive_scan(InputIterator first, InputIterator last,
                               OutputIterator result);</cxx-signature>
 
         <cxx-effects>
-          Same as <code>inclusive_scan(first, last, result, plus&lt;&gt;())</code>.
+          <del>Same as</del><ins>Equivalent to</ins> <code>inclusive_scan(first, last, result, plus&lt;&gt;())</code>.
         </cxx-effects>
       </cxx-function>
 
