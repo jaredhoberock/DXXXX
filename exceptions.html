@@ -3,17 +3,25 @@
 <p>Add the following entry to Table 41:</p>
 
 <table>
-  <tr><td>19.6</td><td>Exception list</td><td><code>&ltexception_list&gt</code></td></tr>
+  <tr><td><del>19.6</del><ins>18.8.?</del></td><td>Exception list</td><td><code>&lt;exception_list&gt;</code></td></tr>
 </table>
 
-<p>Add a new subclause to Clause 19:</p>
+<ins>
+and corresponding entry <code>&lt;exception_list&gt;</code> to Table 14 and adjust the reported number of headers.
+</ins>
 
-<cxx-clause id = diagnostics number = 19>
-  <h1>Diagnostics library</h1>
-  <cxx-section id = "exception.list" number = 6>
-    <h1>Class <code>exception_list</code></h1>
-    <pre>
+<p>Add a new <del>subclause</del><ins>section</ins> to Clause <del>19</del><ins>18 after <code>exception_ptr</code></ins>:</p>
 
+<cxx-clause id = support number = 18>
+  <h1><del>Diagnostics</del><ins>Language support</ins> library</h1>
+
+  <cxx-section id = "exception" number = 8>
+    <h1><ins>Exception handling</ins></h1>
+
+    <cxx-section id = "exception.list" number = ?>
+      <h1>Class <code>exception_list</code></h1>
+      <pre>
+  
 namespace std {
 
   class exception_list : public exception
@@ -28,53 +36,54 @@ namespace std {
       virtual const char* what() const noexcept;
   };
 }
-    </pre>
-    <p>
-      The class <code>exception_list</code> owns a sequence of <code>exception_ptr</code> objects. The parallel
-      algorithms may use the <code>exception_list</code> to communicate uncaught exceptions encountered during parallel execution to the
-      caller of the algorithm.
-    </p>
+      </pre>
+      <p>
+        The class <code>exception_list</code> owns a sequence of <code>exception_ptr</code> objects. <del>The p</del><ins>P</ins>arallel
+        algorithms <del>may </del>use the <code>exception_list</code> to communicate uncaught exceptions encountered during parallel execution to the
+        caller of the algorithm.
+      </p>
 
-    <p>
-      The type <code>exception_list::iterator</code> meets the requirements of
-      <code>ForwardIterator</code>.
-    </p>
+      <p>
+        The type <code>exception_list::iterator</code> <ins>is a constant iterator that </ins>meets the requirements of
+        <code>ForwardIterator</code>.
+      </p>
 
-    <cxx-function>
-      <cxx-signature>size_t size() const noexcept;</cxx-signature>
+      <cxx-function>
+        <cxx-signature>size_t size() const noexcept;</cxx-signature>
 
-      <cxx-returns>
-        The number of <code>exception_ptr</code> objects contained within the <code>exception_list</code>.
-      </cxx-returns>
+        <cxx-returns>
+          The number of <code>exception_ptr</code> objects contained within the <code>exception_list</code>.
+        </cxx-returns>
 
-      <cxx-complexity>
-        Constant time.
-      </cxx-complexity>
-    </cxx-function>
+        <cxx-complexity>
+          Constant time.
+        </cxx-complexity>
+      </cxx-function>
 
-    <cxx-function>
-      <cxx-signature>iterator begin() const noexcept;</cxx-signature>
+      <cxx-function>
+        <cxx-signature>iterator begin() const noexcept;</cxx-signature>
 
-      <cxx-returns>
-        An iterator referring to the first <code>exception_ptr</code> object contained within the <code>exception_list</code>.
-      </cxx-returns>
-    </cxx-function>
+        <cxx-returns>
+          An iterator referring to the first <code>exception_ptr</code> object contained within the <code>exception_list</code>.
+        </cxx-returns>
+      </cxx-function>
 
-    <cxx-function>
-      <cxx-signature>iterator end() const noexcept;</cxx-signature>
+      <cxx-function>
+        <cxx-signature>iterator end() const noexcept;</cxx-signature>
 
-      <cxx-returns>
-        An iterator that is the past-the-end value of the owned sequence.
-      </cxx-returns>
-    </cxx-function>
+        <cxx-returns>
+          An iterator that is the past-the-end value of the owned sequence.
+        </cxx-returns>
+      </cxx-function>
 
-    <cxx-function>
-      <cxx-signature>virtual const char* what() const noexcept;</cxx-signature>
+      <cxx-function>
+        <cxx-signature>virtual const char* what() const noexcept;</cxx-signature>
 
-      <cxx-returns>
-        An implementation-defined NTBS.
-      </cxx-returns>
-    </cxx-function>
+        <cxx-returns>
+          An implementation-defined NTBS.
+        </cxx-returns>
+      </cxx-function>
+    </cxx-section>
   </cxx-section>
 </cxx-clause>
 
