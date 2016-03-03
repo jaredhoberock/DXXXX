@@ -1,5 +1,5 @@
 <h1>Introducing general parallel algorithms content</h1>
-<p><del>Add</del><ins>Insert</ins> the following subclause <del>to</del><ins>after</ins> <del>Clause</del><ins>Section</ins> 25<ins>.1</ins>:</p>
+<p>Insert the following subclause after Section 25.1:</p>
 
 <cxx-clause id = algorithms number = 25>
   <h1>Algorithms library</h1>
@@ -34,7 +34,7 @@
               Operations on those function objects required by the specification.
 
               <cxx-note>
-                See clause 25.1<del> of <em>C++ Standard Algorithms Library</em></del>.
+                See clause 25.1.
               </cxx-note>
             </li>
           </ul>
@@ -82,14 +82,14 @@
         <p>
           The invocations of element access functions in parallel algorithms invoked with an execution
           policy object of type <code>sequential_execution_policy</code> 
-          are indeterminately sequenced <ins>in </ins>(1.9) <ins>[intro.execution] </ins>the calling thread.
+          are indeterminately sequenced in (1.9) [intro.execution] the calling thread.
         </p>
 
         <p>
           The invocations of element access functions in parallel algorithms invoked with an execution
           policy object of type <code>parallel_execution_policy</code> are permitted to execute in either the invoking thread or in a thread implicitly created by the library
           to support parallel algorithm execution. Any such invocations executing in the same thread are
-          indeterminately sequenced <ins>(1.9) [intro.execution] </ins> with respect to each other.
+          indeterminately sequenced (1.9) [intro.execution] with respect to each other.
 
           <cxx-note>
             It is the caller's responsibility to ensure correctness, for example that the invocation does
@@ -101,7 +101,7 @@
 int a[] = {0,1};
 std::vector&lt;int&gt; v;
 std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int i) {
-  v.push_back(i*2+1); <ins>// Error: data race</ins>
+  v.push_back(i*2+1); // Error: data race
 });
 </pre>
   
@@ -116,7 +116,7 @@ int a[] = {1,2};
 std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int n) {
   x.fetch_add(1, std::memory_order_relaxed);
   // spin wait for another iteration to change the value of x
-  while (x.load(std::memory_order_relaxed) == 1) { } <ins>// Error: assumes execution order</ins>
+  while (x.load(std::memory_order_relaxed) == 1) { } // Error: assumes execution order
 });</pre>
   
           The above example depends on the order of execution of the iterations, and is therefore
@@ -129,10 +129,8 @@ int x=0;
 std::mutex m;
 int a[] = {1,2};
 std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int) {
-  <ins>lock_guard&lt;mutex&gt; lock(m);</ins>
-  <del>m.lock();</del>
+  lock_guard&lt;mutex&gt; lock(m);
   ++x;
-  <del>m.unlock();</del>
 });</pre>
   
           The above example synchronizes access to object <code>x</code> ensuring that it is
@@ -145,19 +143,13 @@ std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int) {
           are permitted to execute in an unordered fashion in unspecified threads, and unsequenced
           with respect to one another within each thread.
           <cxx-note>
-            This means that multiple function object invocations may be interleaved on a single thread<del>.</del>
-            <ins>, which overrides the usual guarantee from 1.9 [intro.execution] that function executions do not
+            This means that multiple function object invocations may be interleaved on a single thread,
+            which overrides the usual guarantee from 1.9 [intro.execution] that function executions do not
             interleave with one another.
           </cxx-note>
         <pre>
 </pre>
   
-          <del>
-          <cxx-note>
-            This overrides the usual guarantee from the C++ standard, Section 1.9 [intro.execution] that
-            function executions do not interleave with one another.
-          </cxx-note>
-          </del>
         <pre>
 </pre>
   
@@ -183,23 +175,17 @@ int x=0;
 std::mutex m;
 int a[] = {1,2};
 std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
-  <ins>lock_guard&lt;mutex&gt; lock(m); // Error: lock_guard constructor calls m.lock</ins>
-  <del>m.lock();</del>
+  lock_guard&lt;mutex&gt; lock(m); // Error: lock_guard constructor calls m.lock
   ++x;
-  <del>m.unlock();</del>
 });</pre>
 
           The above program is invalid because the applications of the function object are not
-          guaranteed to run on different threads.<ins> This may result in two consecutive calls
-          to <code>m.lock</code> on the same thread, which may deadlock.</ins>
+          guaranteed to run on different threads. This may result in two consecutive calls
+          to <code>m.lock</code> on the same thread, which may deadlock.
         </cxx-example><pre>
 </pre>
   
-        <del>
-        <cxx-note>
-          The application of the function object may result in two consecutive calls to
-          <code>m.lock</code> on the same thread, which may deadlock.
-        </cxx-note></del><pre>
+        <pre>
 </pre>
   
         <cxx-note>
@@ -208,13 +194,6 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
           sequential execution if the system cannot parallelize an algorithm invocation due to lack of
           resources.
         </cxx-note>
-  
-        <del>
-        <p>
-          Algorithms invoked with an execution policy object of type <code>execution_policy</code>
-          execute internally as if invoked with the contained execution policy object.
-        </p>
-        </del>
   
         <p>
           The semantics of parallel algorithms invoked with an execution policy object of
@@ -226,8 +205,8 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
         <h1>Parallel algorithm exceptions</h1>
         <p>
           During the execution of a standard parallel algorithm, 
-          if temporary memory resources are required <ins>for parallelization</ins> and none are available,
-          the algorithm throws a <code><del>std::</del>bad_alloc</code> exception.
+          if temporary memory resources are required for parallelization and none are available,
+          the algorithm throws a <code>bad_alloc</code> exception.
         </p>
 
         <p>
@@ -237,14 +216,14 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
 
           <ul>
             <li>
-              If the execution policy object is of type <code><del>class </del>parallel_vector_execution_policy</code>,
-              <code><del>std::</del>terminate<ins>()</ins></code> <del>shall be</del><ins>is</ins> called.
+              If the execution policy object is of type <code>parallel_vector_execution_policy</code>,
+              <code>terminate()</code> is called.
             </li>
 
             <li>
               If the execution policy object is of type <code>sequential_execution_policy</code> or
               <code>parallel_execution_policy</code>, the execution of the algorithm exits via an exception. The
-              exception <del>shall</del><ins>will</ins> be an <code>exception_list</code> containing all uncaught exceptions thrown during
+              exception will be an <code>exception_list</code> containing all uncaught exceptions thrown during
               the invocations of element access functions, or optionally the uncaught exception if there was only one.
 
               <p>
@@ -255,13 +234,13 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
 
               <p>
                 <cxx-note>These guarantees imply that, unless the algorithm has failed to allocate memory and exits via
-                <code><del>std::</del>bad_alloc</code>, all exceptions thrown during the execution of the algorithm are communicated to the
+                <code>bad_alloc</code>, all exceptions thrown during the execution of the algorithm are communicated to the
                 caller. It is unspecified whether an algorithm implementation will "forge ahead" after encountering and capturing
                 a user exception.</cxx-note>
               </p>
 
               <p>
-                <cxx-note>The algorithm may exit via the <code><del>std::</del>bad_alloc</code> exception even if one or more user-provided
+                <cxx-note>The algorithm may exit via the <code>bad_alloc</code> exception even if one or more user-provided
                 function objects have exited via an exception. For example, this can happen when an algorithm fails to allocate memory while
                 creating or adding elements to the <code>exception_list</code> object.</cxx-note>
               </p>
@@ -278,7 +257,6 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
         <h1><code>ExecutionPolicy</code> algorithm overloads</h1>
 
         <p>
-          <ins>TODO: Fix wording of this paragraph and nearby paragraphs.</ins>
           The Parallel Algorithms Library provides overloads for each of the algorithms named in
           Table 1, corresponding to the algorithms with the same name in the C++ Standard Algorithms Library.
           
@@ -499,7 +477,7 @@ InputIterator for_each_n(InputIterator first, Size n,
         </cxx-requires>
 
         <cxx-requires>
-          <ins><code>n >= 0</code>.</ins>
+          <code>n >= 0</code>.
         </cxx-requires>
 
         <cxx-effects>
@@ -513,7 +491,7 @@ InputIterator for_each_n(InputIterator first, Size n,
         </cxx-effects>
 
         <cxx-returns>
-          <code>first + n</code><del> for non-negative values of <code>n</code> and <code>first</code> for negative values</del>.
+          <code>first + n</code>.
         </cxx-returns>
 
         <cxx-remarks>
@@ -528,7 +506,7 @@ InputIterator for_each_n(ExecutionPolicy &amp;&amp; exec,
                          InputIterator first, Size n,
                          Function f);</cxx-signature>
         <cxx-requires>
-          <ins><code>n >= 0</code>.</ins>
+          <code>n >= 0</code>.
         </cxx-requires>
 
         <cxx-effects>
@@ -542,7 +520,7 @@ InputIterator for_each_n(ExecutionPolicy &amp;&amp; exec,
         </cxx-effects>
 
         <cxx-returns>
-        <code>first + n</code><del> for non-negative values of <code>n</code> and <code>first</code> for negative values</del>.
+        <code>first + n</code>.
         </cxx-returns>
 
         <cxx-remarks>
@@ -550,7 +528,7 @@ InputIterator for_each_n(ExecutionPolicy &amp;&amp; exec,
         </cxx-remarks>
 
         <cxx-notes>
-          <del>Unlike its sequential form, t</del><ins>T</ins>he parallel overload of <code>for_each_n</code> requires
+          The parallel overload of <code>for_each_n</code> requires
           <code>Function</code> to meet the requirements of <code>CopyConstructible</code>.
         </cxx-notes>
       </cxx-function>
@@ -625,7 +603,7 @@ typename iterator_traits&lt;InputIterator&gt;::value_type
     reduce(InputIterator first, InputIterator last);</cxx-signature>
 
         <cxx-effects>
-          <del>Same as</del><ins>Equivalent to</ins> <code>reduce(first, last, typename iterator_traits&lt;InputIterator&gt;::value_type{})</code>.
+          Equivalent to <code>reduce(first, last, typename iterator_traits&lt;InputIterator&gt;::value_type{})</code>.
         </cxx-effects>
       </cxx-function>
 
@@ -634,7 +612,7 @@ typename iterator_traits&lt;InputIterator&gt;::value_type
 T reduce(InputIterator first, InputIterator last, T init);</cxx-signature>
 
         <cxx-effects>
-          <del>Same as</del><ins>Equivalent to</ins> <code>reduce(first, last, init, plus&lt;&gt;())</code>.
+          Equivalent to <code>reduce(first, last, init, plus&lt;&gt;())</code>.
         </cxx-effects>
       </cxx-function>
 
@@ -673,7 +651,7 @@ OutputIterator exclusive_scan(InputIterator first, InputIterator last,
                               T init);</cxx-signature>
 
         <cxx-effects>
-          <del>Same as</del><ins>Equivalent to</ins> <code>exclusive_scan(first, last, result, init, plus&lt;&gt;())</code>.
+          Equivalent to <code>exclusive_scan(first, last, result, init, plus&lt;&gt;())</code>.
         </cxx-effects>
       </cxx-function>
 
@@ -719,7 +697,7 @@ OutputIterator inclusive_scan(InputIterator first, InputIterator last,
                               OutputIterator result);</cxx-signature>
 
         <cxx-effects>
-          <del>Same as</del><ins>Equivalent to</ins> <code>inclusive_scan(first, last, result, plus&lt;&gt;())</code>.
+          Equivalent to <code>inclusive_scan(first, last, result, plus&lt;&gt;())</code>.
         </cxx-effects>
       </cxx-function>
 
