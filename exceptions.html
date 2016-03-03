@@ -25,7 +25,7 @@ namespace std {
       iterator begin() const noexcept;
       iterator end() const noexcept;
 
-      const char* what() const noexcept override;
+      <ins>virtual </ins>const char* what() const noexcept<del> override</del>;
   };
 }
     </pre>
@@ -36,7 +36,7 @@ namespace std {
     </p>
 
     <p>
-      The type <code>exception_list::iterator</code> shall fulfill the requirements of
+      The type <code>exception_list::iterator</code> <del>shall fulfill</del><ins>meets</ins> the requirements of
       <code>ForwardIterator</code>.
     </p>
 
@@ -64,12 +64,12 @@ namespace std {
       <cxx-signature>iterator end() const noexcept;</cxx-signature>
 
       <cxx-returns>
-        An iterator that is past the end of the owned sequence.
+        An iterator that is <del>past the end</del><ins>the past-the-end value</ins> of the owned sequence.
       </cxx-returns>
     </cxx-function>
 
     <cxx-function>
-      <cxx-signature>const char* what() const noexcept override;</cxx-signature>
+      <cxx-signature><ins>virtual </ins>const char* what() const noexcept<del> override</del>;</cxx-signature>
 
       <cxx-returns>
         An implementation-defined NTBS.

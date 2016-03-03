@@ -4,6 +4,8 @@
 <table>
   <tr><td>20.15</td><td>Execution policies</td><td><code>&ltexecution_policy&gt</code></td></tr>
 </table>
+
+<ins>and corresponding entry <code>&lt;execution_policy&gt;</code> to Table 14.</ins>
   
 <p>Add a new subclause to Clause 20:</p>
 
@@ -22,12 +24,13 @@
 
         <cxx-example>
           <cxx-codeblock>
-std::vector&lt;int&gt; v = ...
+<ins>using namespace std;</ins>
+<del>std::</del>vector&lt;int&gt; v = ...
 
 // standard sequential sort
-std::sort(v.begin(), v.end());
+<del>std::</del>sort(v.begin(), v.end());
 
-using namespace std;
+<del>using namespace std;</del>
 
 // explicitly sequential sort
 sort(seq, v.begin(), v.end());
@@ -55,7 +58,7 @@ sort(exec, v.begin(), v.end());
 
       <cxx-note>
         Because different parallel architectures may require idiosyncratic
-        parameters for efficient execution, implementations of the Standard Library 
+        parameters for efficient execution, implementations<del> of the Standard Library</del>
         may provide additional execution policies to those described in this
         standard as extensions.
       </cxx-note>
@@ -92,7 +95,7 @@ namespace std {
 template&lt;class T&gt; struct is_execution_policy { <em>see below</em> };
 </pre>
 
-    <p><code>is_execution_policy</code> can be used to detect parallel execution policies for the purpose of excluding function signatures from otherwise ambiguous overload resolution participation.</p>
+    <p><code>is_execution_policy</code> can be used to detect <del>parallel </del>execution policies for the purpose of excluding function signatures from otherwise ambiguous overload resolution participation.</p>
     
     <p><code>is_execution_policy&lt;T&gt;</code> shall be a UnaryTypeTrait with a BaseCharacteristic of <code>true_type</code> if <code>T</code> is the type of a standard or implementation-defined execution policy, otherwise <code>false_type</code>.
 
@@ -225,12 +228,12 @@ std::sort(exec, std::begin(sort_me), std::end(sort_me));</pre>
       <h1>Execution policy objects</h1>
   
 <pre>
-constexpr sequential_execution_policy      seq{};
-constexpr parallel_execution_policy        par{};
-constexpr parallel_vector_execution_policy par_vec{};
+constexpr sequential_execution_policy      seq{<ins> <em>unspecified</em> </ins>};
+constexpr parallel_execution_policy        par{<ins> <em>unspecified</em> </ins>};
+constexpr parallel_vector_execution_policy par_vec{<ins> <em>unspecified</em> </ins>};
 </pre>
 
-      <p>The header <code>&lt;execution_policy&gt;</code> declares a global object associated with each type of execution policy defined by this Technical Specification.</p>
+      <p>The header <code>&lt;execution_policy&gt;</code> declares a global object associated with each type of execution policy<del> defined by this Technical Specification</del>.</p>
     </cxx-section>
 
   </cxx-section>

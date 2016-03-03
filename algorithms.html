@@ -1,10 +1,10 @@
 <h1>Introducing general parallel algorithms content</h1>
-<p>Add the following subclause to Clause 25:</p>
+<p><del>Add</del><ins>Insert</ins> the following subclause <del>to</del><ins>after</ins> <del>Clause</del><ins>Section</ins> 25<ins>.1</ins>:</p>
 
 <cxx-clause id = algorithms number = 25>
   <h1>Algorithms library</h1>
 
-  <cxx-section id = algorithms.parallel number = 2>
+  <cxx-section id = algorithms.parallel number = ?>
     <h1>Parallel algorithms</h1>
 
     This clause describes components that C++ programs may use to perform operations on containers
@@ -34,7 +34,7 @@
               Operations on those function objects required by the specification.
 
               <cxx-note>
-                See clause 25.1 of <em>C++ Standard Algorithms Library</em>.
+                See clause 25.1<del> of <em>C++ Standard Algorithms Library</em></del>.
               </cxx-note>
             </li>
           </ul>
@@ -60,367 +60,376 @@
             </ul>
           </cxx-example>
       </cxx-section>
-    </cxx-section>
 
-    <cxx-section id = algorithms.parallel.user>
-      <h1>Requirements on user-provided function objects</h1>
+      <cxx-section id = algorithms.parallel.user>
+        <h1>Requirements on user-provided function objects</h1>
 
-      <p>
-        Function objects passed into parallel algorithms as objects of type <code>BinaryPredicate</code>,
-        <code>Compare</code>, and <code>BinaryOperation</code> shall not directly or indirectly modify
-        objects via their arguments.
-      </p>
-    </cxx-section>
+        <p>
+          Function objects passed into parallel algorithms as objects of type <code>BinaryPredicate</code>,
+          <code>Compare</code>, and <code>BinaryOperation</code> shall not directly or indirectly modify
+          objects via their arguments.
+        </p>
+      </cxx-section>
 
-    <cxx-section id = algorithms.parallel.exec>
-      <h1>Effect of execution policies on algorithm execution</h1>
-      <p>
-        Parallel algorithms have template parameters named <code>ExecutionPolicy</code> which describe
-        the manner in which the execution of these algorithms may be parallelized and the manner in
-        which they apply the element access functions.
-      </p>
+      <cxx-section id = algorithms.parallel.exec>
+        <h1>Effect of execution policies on algorithm execution</h1>
+        <p>
+          Parallel algorithms have template parameters named <code>ExecutionPolicy</code> which describe
+          the manner in which the execution of these algorithms may be parallelized and the manner in
+          which they apply the element access functions.
+        </p>
 
-      <p>
-        The invocations of element access functions in parallel algorithms invoked with an execution
-        policy object of type <code>sequential_execution_policy</code> 
-        are indeterminately sequenced (1.9) the calling thread.
-      </p>
+        <p>
+          The invocations of element access functions in parallel algorithms invoked with an execution
+          policy object of type <code>sequential_execution_policy</code> 
+          are indeterminately sequenced <ins>in </ins>(1.9) <ins>[intro.execution] </ins>the calling thread.
+        </p>
 
-      <p>
-        The invocations of element access functions in parallel algorithms invoked with an execution
-        policy object of type <code>parallel_execution_policy</code> are permitted to execute in either the invoking thread or in a thread implicitly created by the library
-        to support parallel algorithm execution. Any such invocations executing in the same thread are
-        indeterminately sequenced <ins>(1.9)</ins> with respect to each other.
+        <p>
+          The invocations of element access functions in parallel algorithms invoked with an execution
+          policy object of type <code>parallel_execution_policy</code> are permitted to execute in either the invoking thread or in a thread implicitly created by the library
+          to support parallel algorithm execution. Any such invocations executing in the same thread are
+          indeterminately sequenced <ins>(1.9) [intro.execution] </ins> with respect to each other.
 
-        <cxx-note>
-          It is the caller's responsibility to ensure correctness, for example that the invocation does
-          not introduce data races or deadlocks.
-        </cxx-note>
-      </p>
+          <cxx-note>
+            It is the caller's responsibility to ensure correctness, for example that the invocation does
+            not introduce data races or deadlocks.
+          </cxx-note>
+        </p>
 
-      <cxx-example><pre>
+        <cxx-example><pre>
 int a[] = {0,1};
 std::vector&lt;int&gt; v;
 std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int i) {
-  v.push_back(i*2+1);
+  v.push_back(i*2+1); <ins>// Error: data race</ins>
 });
 </pre>
-
-        The program above has a data race because of the unsynchronized access to the container
-        <code>v</code>.
-      </cxx-example><pre>
+  
+          The program above has a data race because of the unsynchronized access to the container
+          <code>v</code>.
+        </cxx-example><pre>
 </pre>
 
-      <cxx-example><pre>
+        <cxx-example><pre>
 std::atomic&lt;int&gt; x = 0;
 int a[] = {1,2};
 std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int n) {
   x.fetch_add(1, std::memory_order_relaxed);
   // spin wait for another iteration to change the value of x
-  while (x.load(std::memory_order_relaxed) == 1) { }
+  while (x.load(std::memory_order_relaxed) == 1) { } <ins>// Error: assumes execution order</ins>
 });</pre>
-
-        The above example depends on the order of execution of the iterations, and is therefore
-        undefined (may deadlock).
-      </cxx-example><pre>
+  
+          The above example depends on the order of execution of the iterations, and is therefore
+          undefined (may deadlock).
+        </cxx-example><pre>
 </pre>
 
-      <cxx-example><pre>
+        <cxx-example><pre>
 int x=0;
 std::mutex m;
 int a[] = {1,2};
 std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int) {
-  m.lock();
+  <ins>lock_guard&lt;mutex&gt; lock(m);</ins>
+  <del>m.lock();</del>
   ++x;
-  m.unlock();
+  <del>m.unlock();</del>
 });</pre>
+  
+          The above example synchronizes access to object <code>x</code> ensuring that it is
+          incremented correctly.
+        </cxx-example>
 
-        The above example synchronizes access to object <code>x</code> ensuring that it is
-        incremented correctly.
-      </cxx-example>
-
-      <p>
-        The invocations of element access functions in parallel algorithms invoked with an execution
-        policy of type <code>parallel_vector_execution_policy</code>
-        are permitted to execute in an unordered fashion in unspecified threads, and unsequenced
-        with respect to one another within each thread.
-        <cxx-note>
-          This means that multiple function object invocations may be interleaved on a single thread.
-        </cxx-note>
-      <pre>
+        <p>
+          The invocations of element access functions in parallel algorithms invoked with an execution
+          policy of type <code>parallel_vector_execution_policy</code>
+          are permitted to execute in an unordered fashion in unspecified threads, and unsequenced
+          with respect to one another within each thread.
+          <cxx-note>
+            This means that multiple function object invocations may be interleaved on a single thread<del>.</del>
+            <ins>, which overrides the usual guarantee from 1.9 [intro.execution] that function executions do not
+            interleave with one another.
+          </cxx-note>
+        <pre>
 </pre>
-
-        <cxx-note>
-          This overrides the usual guarantee from the C++ standard, Section 1.9 [intro.execution] that
-          function executions do not interleave with one another.
-        </cxx-note>
-      <pre>
+  
+          <del>
+          <cxx-note>
+            This overrides the usual guarantee from the C++ standard, Section 1.9 [intro.execution] that
+            function executions do not interleave with one another.
+          </cxx-note>
+          </del>
+        <pre>
 </pre>
-
-        Since <code>parallel_vector_execution_policy</code> allows the execution of element access functions to be
-        interleaved on a single thread, synchronization, including the use of mutexes, risks deadlock. Thus the
-        synchronization with <code>parallel_vector_execution_policy</code> is restricted as follows:<pre>
+  
+          Since <code>parallel_vector_execution_policy</code> allows the execution of element access functions to be
+          interleaved on a single thread, synchronization, including the use of mutexes, risks deadlock. Thus the
+          synchronization with <code>parallel_vector_execution_policy</code> is restricted as follows:<pre>
 </pre>
-
-        A standard library function is <em>vectorization-unsafe</em> if it is specified to synchronize with
-        another function invocation, or another function invocation is specified to synchronize with it, and if
-        it is not a memory allocation or deallocation function. Vectorization-unsafe standard library functions
-        may not be invoked by user code called from <code>parallel_vector_execution_policy</code> algorithms.<pre>
+  
+          A standard library function is <em>vectorization-unsafe</em> if it is specified to synchronize with
+          another function invocation, or another function invocation is specified to synchronize with it, and if
+          it is not a memory allocation or deallocation function. Vectorization-unsafe standard library functions
+          may not be invoked by user code called from <code>parallel_vector_execution_policy</code> algorithms.<pre>
 </pre>
+  
+          <cxx-note>
+            Implementations must ensure that internal synchronization inside standard library routines does not
+            induce deadlock.
+          </cxx-note>
+        </p>
 
-        <cxx-note>
-          Implementations must ensure that internal synchronization inside standard library routines does not
-          induce deadlock.
-        </cxx-note>
-      </p>
-
-      <cxx-example><pre>
+        <cxx-example><pre>
 int x=0;
 std::mutex m;
 int a[] = {1,2};
 std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
-  m.lock();
+  <ins>lock_guard&lt;mutex&gt; lock(m); // Error: lock_guard constructor calls m.lock</ins>
+  <del>m.lock();</del>
   ++x;
-  m.unlock();
+  <del>m.unlock();</del>
 });</pre>
 
-        The above program is invalid because the applications of the function object are not
-        guaranteed to run on different threads.
-      </cxx-example><pre>
+          The above program is invalid because the applications of the function object are not
+          guaranteed to run on different threads.<ins> This may result in two consecutive calls
+          to <code>m.lock</code> on the same thread, which may deadlock.</ins>
+        </cxx-example><pre>
 </pre>
-
-      <cxx-note>
-        The application of the function object may result in two consecutive calls to
-        <code>m.lock</code> on the same thread, which may deadlock.
-      </cxx-note><pre>
+  
+        <del>
+        <cxx-note>
+          The application of the function object may result in two consecutive calls to
+          <code>m.lock</code> on the same thread, which may deadlock.
+        </cxx-note></del><pre>
 </pre>
+  
+        <cxx-note>
+          The semantics of the <code>parallel_execution_policy</code> or the
+          <code>parallel_vector_execution_policy</code> invocation allow the implementation to fall back to
+          sequential execution if the system cannot parallelize an algorithm invocation due to lack of
+          resources.
+        </cxx-note>
+  
+        <del>
+        <p>
+          Algorithms invoked with an execution policy object of type <code>execution_policy</code>
+          execute internally as if invoked with the contained execution policy object.
+        </p>
+        </del>
+  
+        <p>
+          The semantics of parallel algorithms invoked with an execution policy object of
+          implementation-defined type are implementation-defined.
+        </p>
+      </cxx-section>
 
-      <cxx-note>
-        The semantics of the <code>parallel_execution_policy</code> or the
-        <code>parallel_vector_execution_policy</code> invocation allow the implementation to fall back to
-        sequential execution if the system cannot parallelize an algorithm invocation due to lack of
-        resources.
-      </cxx-note>
+      <cxx-section id = algorithms.parallel.exceptions>
+        <h1>Parallel algorithm exceptions</h1>
+        <p>
+          During the execution of a standard parallel algorithm, 
+          if temporary memory resources are required <ins>for parallelization</ins> and none are available,
+          the algorithm throws a <code><del>std::</del>bad_alloc</code> exception.
+        </p>
 
-      <del>
-      <p>
-        Algorithms invoked with an execution policy object of type <code>execution_policy</code>
-        execute internally as if invoked with the contained execution policy object.
-      </p>
-      </del>
+        <p>
+          During the execution of a standard parallel algorithm, if the invocation of an element access function
+          exits via an uncaught exception, the behavior of the program is determined by the type of
+          execution policy used to invoke the algorithm:
 
-      <p>
-        The semantics of parallel algorithms invoked with an execution policy object of
-        implementation-defined type are implementation-defined.
-      </p>
-    </cxx-section>
+          <ul>
+            <li>
+              If the execution policy object is of type <code><del>class </del>parallel_vector_execution_policy</code>,
+              <code><del>std::</del>terminate<ins>()</ins></code> <del>shall be</del><ins>is</ins> called.
+            </li>
 
-    <cxx-section id = algorithms.parallel.exceptions>
-      <h1>Parallel algorithm exceptions</h1>
-      <p>
-        During the execution of a standard parallel algorithm, 
-        if temporary memory resources are required <ins>for parallelization</ins> and none are available,
-        the algorithm throws a <code><del>std::</del>bad_alloc</code> exception.
-      </p>
+            <li>
+              If the execution policy object is of type <code>sequential_execution_policy</code> or
+              <code>parallel_execution_policy</code>, the execution of the algorithm exits via an exception. The
+              exception <del>shall</del><ins>will</ins> be an <code>exception_list</code> containing all uncaught exceptions thrown during
+              the invocations of element access functions, or optionally the uncaught exception if there was only one.
 
-      <p>
-        During the execution of a standard parallel algorithm, if the invocation of an element access function
-        exits via an uncaught exception, the behavior of the program is determined by the type of
-        execution policy used to invoke the algorithm:
+              <p>
+                <cxx-note>For example, when <code>for_each</code> is executed sequentially, if an invocation of the user-provided
+                function object throws an exception, <code>for_each</code> can exit via the uncaught exception, or throw an
+                <code>exception_list</code> containing the original exception.</cxx-note>
+              </p>
 
-        <ul>
-          <li>
-            If the execution policy object is of type <code><del>class </del>parallel_vector_execution_policy</code>,
-            <code><del>std::</del>terminate<ins>()</ins></code> <del>shall be</del><ins>is</ins> called.
-          </li>
+              <p>
+                <cxx-note>These guarantees imply that, unless the algorithm has failed to allocate memory and exits via
+                <code><del>std::</del>bad_alloc</code>, all exceptions thrown during the execution of the algorithm are communicated to the
+                caller. It is unspecified whether an algorithm implementation will "forge ahead" after encountering and capturing
+                a user exception.</cxx-note>
+              </p>
 
-          <li>
-            If the execution policy object is of type <code>sequential_execution_policy</code> or
-            <code>parallel_execution_policy</code>, the execution of the algorithm exits via an exception. The
-            exception <del>shall</del><ins>will</ins> be an <code>exception_list</code> containing all uncaught exceptions thrown during
-            the invocations of element access functions, or optionally the uncaught exception if there was only one.
+              <p>
+                <cxx-note>The algorithm may exit via the <code><del>std::</del>bad_alloc</code> exception even if one or more user-provided
+                function objects have exited via an exception. For example, this can happen when an algorithm fails to allocate memory while
+                creating or adding elements to the <code>exception_list</code> object.</cxx-note>
+              </p>
+            </li>
 
-            <p>
-              <cxx-note>For example, when <code>for_each</code> is executed sequentially, if an invocation of the user-provided
-              function object throws an exception, <code>for_each</code> can exit via the uncaught exception, or throw an
-              <code>exception_list</code> containing the original exception.</cxx-note>
-            </p>
+            <li>
+              If the execution policy object is of any other type, the behavior is implementation-defined.
+            </li>
+          </ul>
+        </p>
+      </cxx-section>
 
-            <p>
-              <cxx-note>These guarantees imply that, unless the algorithm has failed to allocate memory and exits via
-              <code><del>std::</del>bad_alloc</code>, all exceptions thrown during the execution of the algorithm are communicated to the
-              caller. It is unspecified whether an algorithm implementation will "forge ahead" after encountering and capturing
-              a user exception.</cxx-note>
-            </p>
+      <cxx-section id = algorithms.parallel.overloads>
+        <h1><code>ExecutionPolicy</code> algorithm overloads</h1>
 
-            <p>
-              <cxx-note>The algorithm may exit via the <code><del>std::</del>bad_alloc</code> exception even if one or more user-provided
-              function objects have exited via an exception. For example, this can happen when an algorithm fails to allocate memory while
-              creating or adding elements to the <code>exception_list</code> object.</cxx-note>
-            </p>
-          </li>
+        <p>
+          <ins>TODO: Fix wording of this paragraph and nearby paragraphs.</ins>
+          The Parallel Algorithms Library provides overloads for each of the algorithms named in
+          Table 1, corresponding to the algorithms with the same name in the C++ Standard Algorithms Library.
+          
+          For each algorithm in <cxx-ref to="tab.parallel.algorithms"></cxx-ref>, if there are overloads for
+          corresponding algorithms with the same name
+          in the C++ Standard Algorithms Library,
+          the overloads shall have an additional template type parameter named
+          <code>ExecutionPolicy</code>, which shall be the first template parameter.
+          
+          In addition, each such overload shall have the new function parameter as the
+          first function parameter of type <code>ExecutionPolicy&amp;&amp;</code>.
+        </p>
 
-          <li>
-            If the execution policy object is of any other type, the behavior is implementation-defined.
-          </li>
-        </ul>
-      </p>
-    </cxx-section>
+        <p>
+          Unless otherwise specified, the semantics of <code>ExecutionPolicy</code> algorithm overloads
+          are identical to their overloads without.
+        </p>
 
-    <cxx-section id = algorithms.parallel.overloads>
-      <h1><code>ExecutionPolicy</code> algorithm overloads</h1>
+        <p>
+          Parallel algorithms shall not participate in overload resolution unless
+          <code>is_execution_policy&lt;decay_t&lt;ExecutionPolicy&gt;&gt;::value</code> is <code>true</code>.
+        </p>
 
-      <p>
-        The Parallel Algorithms Library provides overloads for each of the algorithms named in
-        Table 1, corresponding to the algorithms with the same name in the C++ Standard Algorithms Library.
-        
-        For each algorithm in <cxx-ref to="tab.parallel.algorithms"></cxx-ref>, if there are overloads for
-        corresponding algorithms with the same name
-        in the C++ Standard Algorithms Library,
-        the overloads shall have an additional template type parameter named
-        <code>ExecutionPolicy</code>, which shall be the first template parameter.
-        
-        In addition, each such overload shall have the new function parameter as the
-        first function parameter of type <code>ExecutionPolicy&amp;&amp;</code>.
-      </p>
+        <table is="cxx-table" id="tab.parallel.algorithms" class="list">
+          <caption>Table of parallel algorithms</caption>
+            <tr>
+              <td><code>adjacent_difference</code></td>
+              <td><code>adjacent_find</code></td>
+              <td><code>all_of</code></td>
+              <td><code>any_of</code></td>
+            </tr>
+            <tr>
+              <td><code>copy</code></td>
+              <td><code>copy_if</code></td>
+              <td><code>copy_n</code></td>
+              <td><code>count</code></td>
+            </tr>
+            <tr>
+              <td><code>count_if</code></td>
+              <td><code>equal</code></td>
+              <td><code>exclusive_scan</code></td>
+              <td><code>fill</code></td>
+            </tr>
+            <tr>
+              <td><code>fill_n</code></td>
+              <td><code>find</code></td>
+              <td><code>find_end</code></td>
+              <td><code>find_first_of</code></td>
+            </tr>
+            <tr>
+              <td><code>find_if</code></td>
+              <td><code>find_if_not</code></td>
+              <td><code>for_each</code></td>
+              <td><code>for_each_n</code></td>
+            </tr>
+            <tr>
+              <td><code>generate</code></td>
+              <td><code>generate_n</code></td>
+              <td><code>includes</code></td>
+              <td><code>inclusive_scan</code></td>
+            </tr>
+            <tr>
+              <td><code>inner_product</code></td>
+              <td><code>inplace_merge</code></td>
+              <td><code>is_heap</code></td>
+              <td><code>is_heap_until</code></td>
+            </tr>
+            <tr>
+              <td><code>is_partitioned</code></td>
+              <td><code>is_sorted</code></td>
+              <td><code>is_sorted_until</code></td>
+              <td><code>lexicographical_compare</code></td>
+            </tr>
+            <tr>
+              <td><code>max_element</code></td>
+              <td><code>merge</code></td>
+              <td><code>min_element</code></td>
+              <td><code>minmax_element</code></td>
+            </tr>
+            <tr>
+              <td><code>mismatch</code></td>
+              <td><code>move</code></td>
+              <td><code>none_of</code></td>
+              <td><code>nth_element</code></td>
+            </tr>
+            <tr>
+              <td><code>partial_sort</code></td>
+              <td><code>partial_sort_copy</code></td>
+              <td><code>partition</code></td>
+              <td><code>partition_copy</code></td>
+            </tr>
+            <tr>
+              <td><code>reduce</code></td>
+              <td><code>remove</code></td>
+              <td><code>remove_copy</code></td>
+              <td><code>remove_copy_if</code></td>
+            </tr>
+            <tr>
+              <td><code>remove_if</code></td>
+              <td><code>replace</code></td>
+              <td><code>replace_copy</code></td>
+              <td><code>replace_copy_if</code></td>
+            </tr>
+            <tr>
+              <td><code>replace_if</code></td>
+              <td><code>reverse</code></td>
+              <td><code>reverse_copy</code></td>
+              <td><code>rotate</code></td>
+            </tr>
+            <tr>
+              <td><code>rotate_copy</code></td>
+              <td><code>search</code></td>
+              <td><code>search_n</code></td>
+              <td><code>set_difference</code></td>
+            </tr>
+            <tr>
+              <td><code>set_intersection</code></td>
+              <td><code>set_symmetric_difference</code></td>
+              <td><code>set_union</code></td>
+              <td><code>sort</code></td>
+            </tr>
+            <tr>
+              <td><code>stable_partition</code></td>
+              <td><code>stable_sort</code></td>
+              <td><code>swap_ranges</code></td>
+              <td><code>transform</code></td>
+            </tr>
+            <tr>
+              <td><code>transform_exclusive_scan</code></td>
+              <td><code>transform_inclusive_scan</code></td>
+              <td><code>transform_reduce</code></td>
+              <td><code>uninitialized_copy</code></td>
+            </tr>
+            <tr>
+              <td><code>uninitialized_copy_n</code></td>
+              <td><code>uninitialized_fill</code></td>
+              <td><code>uninitialized_fill_n</code></td>
+              <td><code>unique</code></td>
+            </tr>
+            <tr>
+              <td><code>unique_copy</code></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+        </table>
 
-      <p>
-        Unless otherwise specified, the semantics of <code>ExecutionPolicy</code> algorithm overloads
-        are identical to their overloads without.
-      </p>
-
-      <p>
-        Parallel algorithms shall not participate in overload resolution unless
-        <code>is_execution_policy&lt;decay_t&lt;ExecutionPolicy&gt;&gt;::value</code> is <code>true</code>.
-      </p>
-
-      <table is="cxx-table" id="tab.parallel.algorithms" class="list">
-        <caption>Table of parallel algorithms</caption>
-          <tr>
-            <td><code>adjacent_difference</code></td>
-            <td><code>adjacent_find</code></td>
-            <td><code>all_of</code></td>
-            <td><code>any_of</code></td>
-          </tr>
-          <tr>
-            <td><code>copy</code></td>
-            <td><code>copy_if</code></td>
-            <td><code>copy_n</code></td>
-            <td><code>count</code></td>
-          </tr>
-          <tr>
-            <td><code>count_if</code></td>
-            <td><code>equal</code></td>
-            <td><code>exclusive_scan</code></td>
-            <td><code>fill</code></td>
-          </tr>
-          <tr>
-            <td><code>fill_n</code></td>
-            <td><code>find</code></td>
-            <td><code>find_end</code></td>
-            <td><code>find_first_of</code></td>
-          </tr>
-          <tr>
-            <td><code>find_if</code></td>
-            <td><code>find_if_not</code></td>
-            <td><code>for_each</code></td>
-            <td><code>for_each_n</code></td>
-          </tr>
-          <tr>
-            <td><code>generate</code></td>
-            <td><code>generate_n</code></td>
-            <td><code>includes</code></td>
-            <td><code>inclusive_scan</code></td>
-          </tr>
-          <tr>
-            <td><code>inner_product</code></td>
-            <td><code>inplace_merge</code></td>
-            <td><code>is_heap</code></td>
-            <td><code>is_heap_until</code></td>
-          </tr>
-          <tr>
-            <td><code>is_partitioned</code></td>
-            <td><code>is_sorted</code></td>
-            <td><code>is_sorted_until</code></td>
-            <td><code>lexicographical_compare</code></td>
-          </tr>
-          <tr>
-            <td><code>max_element</code></td>
-            <td><code>merge</code></td>
-            <td><code>min_element</code></td>
-            <td><code>minmax_element</code></td>
-          </tr>
-          <tr>
-            <td><code>mismatch</code></td>
-            <td><code>move</code></td>
-            <td><code>none_of</code></td>
-            <td><code>nth_element</code></td>
-          </tr>
-          <tr>
-            <td><code>partial_sort</code></td>
-            <td><code>partial_sort_copy</code></td>
-            <td><code>partition</code></td>
-            <td><code>partition_copy</code></td>
-          </tr>
-          <tr>
-            <td><code>reduce</code></td>
-            <td><code>remove</code></td>
-            <td><code>remove_copy</code></td>
-            <td><code>remove_copy_if</code></td>
-          </tr>
-          <tr>
-            <td><code>remove_if</code></td>
-            <td><code>replace</code></td>
-            <td><code>replace_copy</code></td>
-            <td><code>replace_copy_if</code></td>
-          </tr>
-          <tr>
-            <td><code>replace_if</code></td>
-            <td><code>reverse</code></td>
-            <td><code>reverse_copy</code></td>
-            <td><code>rotate</code></td>
-          </tr>
-          <tr>
-            <td><code>rotate_copy</code></td>
-            <td><code>search</code></td>
-            <td><code>search_n</code></td>
-            <td><code>set_difference</code></td>
-          </tr>
-          <tr>
-            <td><code>set_intersection</code></td>
-            <td><code>set_symmetric_difference</code></td>
-            <td><code>set_union</code></td>
-            <td><code>sort</code></td>
-          </tr>
-          <tr>
-            <td><code>stable_partition</code></td>
-            <td><code>stable_sort</code></td>
-            <td><code>swap_ranges</code></td>
-            <td><code>transform</code></td>
-          </tr>
-          <tr>
-            <td><code>transform_exclusive_scan</code></td>
-            <td><code>transform_inclusive_scan</code></td>
-            <td><code>transform_reduce</code></td>
-            <td><code>uninitialized_copy</code></td>
-          </tr>
-          <tr>
-            <td><code>uninitialized_copy_n</code></td>
-            <td><code>uninitialized_fill</code></td>
-            <td><code>uninitialized_fill_n</code></td>
-            <td><code>unique</code></td>
-          </tr>
-          <tr>
-            <td><code>unique_copy</code></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-      </table>
-
-      <cxx-note>
-        Not all algorithms in the Standard Library have counterparts in <cxx-ref to="tab.parallel.algorithms"></cxx-ref>.
-      </cxx-note>
+        <cxx-note>
+          Not all algorithms in the Standard Library have counterparts in <cxx-ref to="tab.parallel.algorithms"></cxx-ref>.
+        </cxx-note>
+      </cxx-section>
     </cxx-section>
   </cxx-section>
 </cxx-clause>
