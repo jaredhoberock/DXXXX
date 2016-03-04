@@ -5,7 +5,7 @@
   <tr><td>20.15</td><td>Execution policies</td><td><code>&ltexecution_policy&gt</code></td></tr>
 </table>
 
-and corresponding entry <code>&lt;execution_policy&gt;</code> to Table 14 <ins> and update the reported number of headers</ins>.
+and corresponding entry <code>&lt;execution_policy&gt;</code> to Table 14 and update the reported number of headers.
   
 <p>Add a new subclause to Clause 20:</p>
 
@@ -31,7 +31,7 @@ vector&lt;int&gt; v = ...
 sort(v.begin(), v.end());
 
 // explicitly sequential sort
-sort(seq<ins>uential</ins>, v.begin(), v.end());
+sort(sequential, v.begin(), v.end());
 
 // permitting parallel execution
 sort(par, v.begin(), v.end());
@@ -94,7 +94,7 @@ template&lt;class T&gt; struct is_execution_policy { <em>see below</em> };
       <h1>Sequential execution policy</h1>
 
     <pre>
-class sequential_execution_policy<ins> </ins>{ <i>unspecified</i> };
+class sequential_execution_policy { <i>unspecified</i> };
 </pre>
 
       <p>The class <code>sequential_execution_policy</code> is an execution policy type used as a unique type to disambiguate parallel algorithm overloading and require that a parallel algorithm's execution may not be parallelized.</p>
@@ -104,7 +104,7 @@ class sequential_execution_policy<ins> </ins>{ <i>unspecified</i> };
       <h1>Parallel execution policy</h1>
   
 <pre>
-class parallel_execution_policy<ins> </ins>{ <i>unspecified</i> };
+class parallel_execution_policy { <i>unspecified</i> };
 </pre>
 
       <p>The class <code>parallel_execution_policy</code> is an execution policy type used as a unique type to disambiguate parallel algorithm overloading and indicate that a parallel algorithm's execution may be parallelized.</p>
@@ -114,22 +114,22 @@ class parallel_execution_policy<ins> </ins>{ <i>unspecified</i> };
       <h1>Parallel+Vector execution policy</h1>
 
 <pre>
-class parallel_vector_execution_policy<ins> </ins>{ <i>unspecified</i> };
+class parallel_vector_execution_policy { <i>unspecified</i> };
 </pre>
 
-      <p>The class <code><del>class </del>parallel_vector_execution_policy</code> is an execution policy type used as a unique type to disambiguate parallel algorithm overloading and indicate that a parallel algorithm's execution may be <del>vectorized and </del>parallelized<ins> and vectorized</ins>.</p>
+      <p>The class <code>parallel_vector_execution_policy</code> is an execution policy type used as a unique type to disambiguate parallel algorithm overloading and indicate that a parallel algorithm's execution may be parallelized and vectorized.</p>
     </cxx-section>
 
     <cxx-section id="parallel.execpol.objects">
       <h1>Execution policy objects</h1>
   
 <pre>
-constexpr sequential_execution_policy      seq<ins>uential</ins>{ <em>unspecified</em> };
+constexpr sequential_execution_policy      sequential{ <em>unspecified</em> };
 constexpr parallel_execution_policy        par{ <em>unspecified</em> };
 constexpr parallel_vector_execution_policy par_vec{ <em>unspecified</em> };
 </pre>
 
-      <p>The header <code>&lt;execution_policy&gt;</code> declares <del>a </del>global object<ins>s</ins> associated with each type of execution policy.</p>
+      <p>The header <code>&lt;execution_policy&gt;</code> declares global objects associated with each type of execution policy.</p>
     </cxx-section>
 
   </cxx-section>

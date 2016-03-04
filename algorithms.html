@@ -7,12 +7,12 @@
   <cxx-section id = algorithms.parallel number = ?>
     <h1>Parallel algorithms</h1>
 
-    This <del>clause</del><ins>section</ins> describes components that C++ programs may use to perform operations on containers
+    This section describes components that C++ programs may use to perform operations on containers
     and other sequences in parallel.
 
     <cxx-section id = algorithms.parallel.defns>
       <h1>Terms and definitions</h1>
-        <p>A <dfn>parallel algorithm</dfn> is a function template listed in <del><cxx-ref to="tab.parallel.algorithms"></cxx-ref></del><ins>this standard</ins> with a <del>formal </del>template parameter named <code>ExecutionPolicy</code>.</p>
+        <p>A <dfn>parallel algorithm</dfn> is a function template listed in this standard with a template parameter named <code>ExecutionPolicy</code>.</p>
 
         <p>
           Parallel algorithms access objects indirectly accessible via their arguments by invoking the following functions:
@@ -23,7 +23,7 @@
             </li>
   
             <li>
-              <del>Functions</del><ins>Operations</ins> on those sequence elements that are required by its specification.
+              Operations on those sequence elements that are required by its specification.
             </li>
   
             <li>
@@ -34,7 +34,7 @@
               Operations on those function objects required by the specification.
 
               <cxx-note>
-                See <del>clause</del> <ins>(</ins>25.1<ins>)</ins>.
+                See (25.1).
               </cxx-note>
             </li>
           </ul>
@@ -46,8 +46,8 @@
   
             <ul>
               <li>
-                <del>Methods</del><ins>Operations</ins> of the random-access iterator of the actual template argument, as per 24.2.7, as implied by the name of the
-                template parameter<del>s</del> <code>RandomAccessIterator</code>.
+                Operations of the random-access iterator of the actual template argument, as per 24.2.7, as implied by the name of the
+                template parameter <code>RandomAccessIterator</code>.
               </li>
   
               <li>
@@ -65,7 +65,7 @@
         <h1>Requirements on user-provided function objects</h1>
 
         <p>
-        Function objects passed into parallel algorithms as objects of type <ins><code>Predicate</code>,</ins> <code>BinaryPredicate</code>,
+        Function objects passed into parallel algorithms as objects of type <code>Predicate</code>, <code>BinaryPredicate</code>,
           <code>Compare</code>, and <code>BinaryOperation</code> shall not directly or indirectly modify
           objects via their arguments.
         </p>
@@ -82,7 +82,7 @@
         <p>
           The invocations of element access functions in parallel algorithms invoked with an execution
           policy object of type <code>sequential_execution_policy</code> 
-          are indeterminately sequenced <del>in </del>(1.9) [intro.execution]<ins> in</ins> the calling thread.
+          are indeterminately sequenced (1.9) [intro.execution] in the calling thread.
         </p>
 
         <p>
@@ -111,9 +111,9 @@ std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int i) {
 </pre>
 
         <cxx-example><pre>
-std::atomic&lt;int&gt; x<del> = 0</del><ins>{0}</ins>;
+std::atomic&lt;int&gt; x{0};
 int a[] = {1,2};
-std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int<del> n</del>) {
+std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int) {
   x.fetch_add(1, std::memory_order_relaxed);
   // spin wait for another iteration to change the value of x
   while (x.load(std::memory_order_relaxed) == 1) { } // Error: assumes execution order
@@ -125,11 +125,11 @@ std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int<del> n</del>) {
 </pre>
 
         <cxx-example><pre>
-int x<ins> </ins>=<ins> </ins>0;
+int x = 0;
 std::mutex m;
 int a[] = {1,2};
 std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int) {
-  <ins>std::</ins>lock_guard&lt;mutex&gt; <del>lock</del><ins>guard</ins>(m);
+  std::lock_guard&lt;mutex&gt; guard(m);
   ++x;
 });</pre>
   
@@ -171,17 +171,17 @@ std::for_each(std::par, std::begin(a), std::end(a), [&amp;](int) {
         </p>
 
         <cxx-example><pre>
-int x<ins> </ins>=<ins> </ins>0;
+int x = 0;
 std::mutex m;
 int a[] = {1,2};
 std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
-  <ins>std::</ins>lock_guard&lt;mutex&gt; <del>lock</del><ins>guard</ins>(m); // Error: lock_guard constructor calls m.lock<ins>()</ins>
+  std::lock_guard&lt;mutex&gt; guard(m); // Error: lock_guard constructor calls m.lock()
   ++x;
 });</pre>
 
-          The above program <del>is invalid</del><ins>has undefined behavior</ins> because the applications of the function object are not
+          The above program has undefined behavior because the applications of the function object are not
           guaranteed to run on different threads. This may result in two consecutive calls
-          to <code>m.lock<ins>()</ins></code> on the same thread, which may deadlock.
+          to <code>m.lock()</code> on the same thread, which may deadlock.
         </cxx-example><pre>
 </pre>
   
@@ -204,13 +204,13 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
       <cxx-section id = algorithms.parallel.exceptions>
         <h1>Parallel algorithm exceptions</h1>
         <p>
-          During the execution of a <del>standard </del>parallel algorithm, 
+          During the execution of a parallel algorithm, 
           if temporary memory resources are required for parallelization and none are available,
           the algorithm throws a <code>bad_alloc</code> exception.
         </p>
 
         <p>
-          During the execution of a <del>standard </del>parallel algorithm, if the invocation of an element access function
+          During the execution of a parallel algorithm, if the invocation of an element access function
           exits via an uncaught exception, the behavior of the program is determined by the type of
           execution policy used to invoke the algorithm:
 
@@ -257,29 +257,13 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
         <h1><code>ExecutionPolicy</code> algorithm overloads</h1>
 
         <p>
-          <del>
-          The Parallel Algorithms Library provides overloads for each of the algorithms named in
-          Table 1, corresponding to the algorithms with the same name in the C++ Standard Algorithms Library.
-          
-          For each algorithm in <cxx-ref to="tab.parallel.algorithms"></cxx-ref>, if there are overloads for
-          corresponding algorithms with the same name
-          in the C++ Standard Algorithms Library,
-          the overloads shall have an additional template type parameter named
-          <code>ExecutionPolicy</code>, which shall be the first template parameter.
-          
-          In addition, each such overload shall have the new function parameter as the
-          first function parameter of type <code>ExecutionPolicy&amp;&amp;</code>.
-          </del>
+          Parallel algorithms are algorithm overloads. Each parallel algorithm overload has an
+          additional template type parameter named <code>ExecutionPolicy</code>, which is the first template parameter.
 
-          <ins>
-            Parallel algorithms are algorithm overloads. Each parallel algorithm overload has an
-            additional template type parameter named <code>ExecutionPolicy</code>, which is the first template parameter.
+          Additionally, each parallel algorithm overload has an additional function parameter
+          of type <code>ExecutionPolicy&amp;&amp;</code>, which is the first function parameter.
 
-            Additionally, each parallel algorithm overload has an additional function parameter
-            of type <code>ExecutionPolicy&amp;&amp;</code>, which is the first function parameter.
-
-            <cxx-note>Not all algorithms have parallel algorithm overloads.</cxx-note>
-          </ins>
+          <cxx-note>Not all algorithms have parallel algorithm overloads.</cxx-note>
         </p>
 
         <p>
@@ -289,7 +273,7 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
 
         <p>
           Parallel algorithms shall not participate in overload resolution unless
-          <code>is_execution_policy<ins>_v</ins>&lt;decay_t&lt;ExecutionPolicy&gt;&gt;<del>::value</del></code> is <code>true</code>.
+          <code>is_execution_policy_v&lt;decay_t&lt;ExecutionPolicy&gt;&gt;</code> is <code>true</code>.
         </p>
 
         <table is="cxx-table" id="tab.parallel.algorithms" class="list">
@@ -417,8 +401,7 @@ std::for_each(std::par_vec, std::begin(a), std::end(a), [&amp;](int) {
         </table>
 
         <cxx-note>
-          <del>Not all algorithms in the Standard Library have counterparts in <cxx-ref to="tab.parallel.algorithms"></cxx-ref>.</del>
-          <ins>Note to the editor: this is the list of all algorithms, including new algorithms introduced by this proposal, whose header synopses and definitions should be augmented with parallel algorithm overloads.</ins>
+          Note to the editor: this table should not be introduced into the standard. This is the list of all algorithms, including new algorithms introduced by this proposal, whose header synopses and definitions should be augmented with parallel algorithm overloads.
         </cxx-note>
       </cxx-section>
     </cxx-section>
@@ -430,21 +413,19 @@ For each algorithm listed in <cxx-ref to="tab.parallel.algorithms"></cxx-ref>, a
 
 <pre></pre>
 
-<ins>
-  New algorithms should be placed at the editor's discretion, after considering the following suggestion:
-  
-  <li><code>for_each_n</code> should follow <code>for_each</code></li>
-  <li><code>reduce</code> should follow <code>accumulate</code></li>
-  <li><code>transform_reduce</code> should follow <code>reduce</code></li>
-  <li><code>exclusive_scan</code> should follow <code>partial_sum</code></li>
-  <li><code>inclusive_scan</code> should follow <code>exclusive_scan</code></li>
-  <li><code>transform_exclusive_scan</code> should follow <code>inclusive_scan</code></li>
-  <li><code>transform_inclusive_scan</code> should follow <code>transform_exclusive_scan</code></li>
-</ins>
+New algorithms should be placed at the editor's discretion, after considering the following suggestion:
+
+<li><code>for_each_n</code> should follow <code>for_each</code></li>
+<li><code>reduce</code> should follow <code>accumulate</code></li>
+<li><code>transform_reduce</code> should follow <code>reduce</code></li>
+<li><code>exclusive_scan</code> should follow <code>partial_sum</code></li>
+<li><code>inclusive_scan</code> should follow <code>exclusive_scan</code></li>
+<li><code>transform_exclusive_scan</code> should follow <code>inclusive_scan</code></li>
+<li><code>transform_inclusive_scan</code> should follow <code>transform_exclusive_scan</code></li>
 
 <h1>Specify new algorithms</h1>
 
-Add <code>for_each</code> with <code>ExecutionPolicy</code>, sequential <code>for_each_n</code>, and <code>for_each_n</code> with <code>ExecutionPolicy</code> to <del>subclause 4.3.2</del><ins>(25.2.4)</ins>:
+Add <code>for_each</code> with <code>ExecutionPolicy</code>, sequential <code>for_each_n</code>, and <code>for_each_n</code> with <code>ExecutionPolicy</code> to (25.2.4):
 
 <cxx-clause id = algorithms number = 25>
   <h1>Algorithms library</h1>
@@ -463,8 +444,7 @@ void for_each(ExecutionPolicy&amp;&amp; exec,
               Function f);</cxx-signature>
 
         <cxx-requires>
-          <del>The parallel overload of <code>for_each</code> requires</del>
-          <code>Function</code> <del>to</del><ins>shall</ins> meet the requirements of <code>CopyConstructible</code>.
+          <code>Function</code> shall meet the requirements of <code>CopyConstructible</code>.
         </cxx-requires>
 
         <cxx-effects>
@@ -485,7 +465,7 @@ void for_each(ExecutionPolicy&amp;&amp; exec,
         </cxx-remarks>
 
         <cxx-notes>
-          <del>The parallel overload of </del><code>for_each</code> does not return a copy of
+          Does not return a copy of
           its <code>Function</code> parameter, since parallelization may not permit efficient state
           accumulation.
         </cxx-notes>
@@ -510,7 +490,7 @@ InputIterator for_each_n(InputIterator first, Size n,
 
         <cxx-effects>
           Applies <code>f</code> to the result of dereferencing every iterator in the range
-          <code>[first,first + n)</code>, starting from <code>first</code> and proceeding to <code>first + n - 1</code>.
+          <code>[first,first + n)</code> in order.
 
           <cxx-note>
             If the type of <code>first</code> satisfies the requirements of a mutable iterator,
@@ -534,12 +514,16 @@ InputIterator for_each_n(ExecutionPolicy&amp;&amp; exec,
                          InputIterator first, Size n,
                          Function f);</cxx-signature>
         <cxx-requires>
+          <code>Function</code> shall meet the requirements of <code>CopyConstructible</code>.
+        </cxx-requires>
+
+        <cxx-requires>
           <code>n >= 0</code>.
         </cxx-requires>
 
         <cxx-effects>
           Applies <code>f</code> to the result of dereferencing every iterator in the range
-          <code>[first,first + n)</code>, starting from <code>first</code> and proceeding to <code>first + n - 1</code>.
+          <code>[first,first + n)</code>.
 
           <cxx-note>
             If the type of <code>first</code> satisfies the requirements of a mutable iterator,
@@ -554,11 +538,6 @@ InputIterator for_each_n(ExecutionPolicy&amp;&amp; exec,
         <cxx-remarks>
           If <code>f</code> returns a result, the result is ignored.
         </cxx-remarks>
-
-        <cxx-notes>
-          The parallel overload of <code>for_each_n</code> requires
-          <code>Function</code> to meet the requirements of <code>CopyConstructible</code>.
-        </cxx-notes>
       </cxx-function>
     </cxx-section>
   </cxx-section>
@@ -631,7 +610,7 @@ typename iterator_traits&lt;InputIterator&gt;::value_type
     reduce(InputIterator first, InputIterator last);</cxx-signature>
 
         <cxx-effects>
-        Equivalent to <code><ins>return </ins>reduce(first, last, typename iterator_traits&lt;InputIterator&gt;::value_type{})</code>.
+        Equivalent to <code>return reduce(first, last, typename iterator_traits&lt;InputIterator&gt;::value_type{})</code>.
         </cxx-effects>
       </cxx-function>
 
@@ -640,7 +619,7 @@ typename iterator_traits&lt;InputIterator&gt;::value_type
 T reduce(InputIterator first, InputIterator last, T init);</cxx-signature>
 
         <cxx-effects>
-          Equivalent to <code><ins>return </ins>reduce(first, last, init, plus&lt;&gt;())</code>.
+          Equivalent to <code>return reduce(first, last, init, plus&lt;&gt;())</code>.
         </cxx-effects>
       </cxx-function>
 
@@ -650,12 +629,11 @@ T reduce(InputIterator first, InputIterator last, T init,
          BinaryOperation binary_op);</cxx-signature>
 
         <cxx-returns>
-          <del><code><em>GENERALIZED_SUM</em>(binary_op, init, *first, ..., *(first + (last - first) - 1))</code>.</del>
-          <ins><code><em>GENERALIZED_SUM</em>(binary_op, init, *i...)</code> for every <code>i</code> in <code>[first, last)</code>.</ins>
+          <code><em>GENERALIZED_SUM</em>(binary_op, init, *i, ...)</code> for every <code>i</code> in <code>[first, last)</code>.
         </cxx-returns>
 
         <cxx-requires>
-          <code>binary_op</code> shall <del>not</del><ins>neither</ins> invalidate iterators or subranges, nor modify elements in the
+          <code>binary_op</code> shall neither invalidate iterators or subranges, nor modify elements in the
           range <code>[first,last)</code>.
         </cxx-requires>
 
@@ -680,7 +658,7 @@ OutputIterator exclusive_scan(InputIterator first, InputIterator last,
                               T init);</cxx-signature>
 
         <cxx-effects>
-          Equivalent to <code><ins>return </ins>exclusive_scan(first, last, result, init, plus&lt;&gt;())</code>.
+          Equivalent to <code>return exclusive_scan(first, last, result, init, plus&lt;&gt;())</code>.
         </cxx-effects>
       </cxx-function>
 
@@ -693,22 +671,15 @@ OutputIterator exclusive_scan(InputIterator first, InputIterator last,
         <cxx-effects>
           Assigns through each iterator <code>i</code> in <code>[result,result + (last - first))</code> the value of
 
-          <ins>
           <ul>
             <li>
               <code>init</code>, if <code>i</code> is <code>result</code>, otherwise
             </li>
 
             <li>
-              <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, init, *j...)</code> for every <code>j</code> in <code>[first,first + (i - result) - 1)</code>.
+              <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, init, *j, ...)</code> for every <code>j</code> in <code>[first,first + (i - result) - 1)</code>.
             </li>
           </ul>
-          </ins>
-
-          <del>
-          Assigns through each iterator <code>i</code> in <code>[result,result + (last - first))</code> the
-          value of <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, init, *first, ..., *(first + (i - result) - 1))</code>.
-          </del>
         </cxx-effects>
 
         <cxx-returns>
@@ -716,7 +687,7 @@ OutputIterator exclusive_scan(InputIterator first, InputIterator last,
         </cxx-returns>
 
         <cxx-requires>
-          <code>binary_op</code> shall <del>not</del><ins>neither</ins> invalidate iterators or subranges, nor modify elements in the
+          <code>binary_op</code> shall neither invalidate iterators or subranges, nor modify elements in the
           ranges <code>[first,last)</code> or <code>[result,result + (last - first))</code>.
         </cxx-requires>
 
@@ -732,7 +703,7 @@ OutputIterator exclusive_scan(InputIterator first, InputIterator last,
         </cxx-notes>
 
         <cxx-remarks>
-          <ins><code>result</code> may be equal to <code>first</code>.</ins>
+          <code>result</code> may be equal to <code>first</code>.
         </cxx-remarks>
       </cxx-function>
     </cxx-section>
@@ -746,7 +717,7 @@ OutputIterator inclusive_scan(InputIterator first, InputIterator last,
                               OutputIterator result);</cxx-signature>
 
         <cxx-effects>
-          Equivalent to <code><ins>return </ins>inclusive_scan(first, last, result, plus&lt;&gt;())</code>.
+          Equivalent to <code>return inclusive_scan(first, last, result, plus&lt;&gt;())</code>.
         </cxx-effects>
       </cxx-function>
 
@@ -763,15 +734,8 @@ OutputIterator inclusive_scan(InputIterator first, InputIterator last,
         <cxx-effects>
           Assigns through each iterator <code>i</code> in <code>[result,result + (last - first))</code> the value of
 
-          <del>
-          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, *first, ..., *(first + (i - result)))</code> or
-          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, init, *first, ..., *(first + (i - result)))</code>
-          </del>
-
-          <ins>
-          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, *j...)</code> for every <code>j</code> in <code>[first,first + (i - result))</code> or
-          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, init, *j...)</code> for every <code>j</code> in <code>[first,first + (i - result))</code>
-          </ins>
+          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, *j, ...)</code> for every <code>j</code> in <code>[first,first + (i - result))</code> or
+          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, init, *j, ...)</code> for every <code>j</code> in <code>[first,first + (i - result))</code>
 
           if <code>init</code> is provided.
         </cxx-effects>
@@ -790,7 +754,7 @@ OutputIterator inclusive_scan(InputIterator first, InputIterator last,
         </cxx-complexity>
 
         <cxx-remarks>
-          <ins><code>result</code> may be equal to <code>first</code>.</ins>
+          <code>result</code> may be equal to <code>first</code>.
         </cxx-remarks>
 
         <cxx-notes>
@@ -811,13 +775,7 @@ T transform_reduce(InputIterator first, InputIterator last,
                    UnaryOperation unary_op, T init, BinaryOperation binary_op);</cxx-signature>
 
         <cxx-returns>
-          <del>
-          <code><em>GENERALIZED_SUM</em>(binary_op, init, unary_op(*first), ..., unary_op(*(first + (last - first) -</code><br>
-          <code>1)))</code>.
-          </del>
-          <ins>
-          <code><em>GENERALIZED_SUM</em>(binary_op, init, unary_op(*i)...)</code> for every <code>i</code> in <code>[first,last)</code>.
-          </ins>
+          <code><em>GENERALIZED_SUM</em>(binary_op, init, unary_op(*i), ...)</code> for every <code>i</code> in <code>[first,last)</code>.
         </cxx-returns>
 
         <cxx-requires>
@@ -849,22 +807,15 @@ OutputIterator transform_exclusive_scan(InputIterator first, InputIterator last,
         <cxx-effects>
           Assigns through each iterator <code>i</code> in <code>[result,result + (last - first))</code> the value of
 
-          <ins>
           <ul>
             <li>
               <code>init</code>, if <code>i</code> is <code>result</code>, otherwise
             </li>
 
             <li>
-              <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, init, unary_op(*j)...)</code> for every <code>j</code> in <code>[first,first + (i - result) - 1)</code>.
+              <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, init, unary_op(*j), ...)</code> for every <code>j</code> in <code>[first,first + (i - result) - 1)</code>.
             </li>
           </ul>
-          </ins>
-
-          <del>
-          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, init, unary_op(*first), ..., unary_op(*(first + (i</code><br>
-          <code>- result) - 1)))</code>.
-          </del>
         </cxx-effects>
 
         <cxx-returns>
@@ -881,7 +832,7 @@ OutputIterator transform_exclusive_scan(InputIterator first, InputIterator last,
         </cxx-complexity>
 
         <cxx-remarks>
-          <ins><code>result</code> may be equal to <code>first</code>.</ins>
+          <code>result</code> may be equal to <code>first</code>.
         </cxx-remarks>
 
         <cxx-notes>
@@ -915,16 +866,8 @@ OutputIterator transform_inclusive_scan(InputIterator first, InputIterator last,
         <cxx-effects>
           Assigns through each iterator <code>i</code> in <code>[result,result + (last - first))</code> the value of
 
-          <del>
-          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, unary_op(*first), ..., unary_op(*(first + (i -</code><br>
-          <code>result))))</code> or
-          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, init, unary_op(*first), ..., unary_op(*(first + (i</code><br>
-          <code>- result))))</code>
-          </del>
-          <ins>
-          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, unary_op(*j)...)</code> for every <code>j</code> in <code>[first,first + (i - result))</code> or
-          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, init, unary_op(*j)...)</code> for every <code>j</code> in <code>[first,first + (i - result))</code>
-          </ins>
+          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, unary_op(*j), ...)</code> for every <code>j</code> in <code>[first,first + (i - result))</code> or
+          <code><em>GENERALIZED_NONCOMMUTATIVE_SUM</em>(binary_op, init, unary_op(*j), ...)</code> for every <code>j</code> in <code>[first,first + (i - result))</code>
 
           if <code>init</code> is provided.
         </cxx-effects>
@@ -943,12 +886,12 @@ OutputIterator transform_inclusive_scan(InputIterator first, InputIterator last,
         </cxx-complexity>
 
         <cxx-remarks>
-          <ins><code>result</code> may be equal to <code>first</code>.</ins>
+          <code>result</code> may be equal to <code>first</code>.
         </cxx-remarks>
 
         <cxx-notes>
           The difference between <code>transform_exclusive_scan</code> and <code>transform_inclusive_scan</code> is that <code>transform_inclusive_scan</code>
-          includes the ith input element <del>from</del><ins>in</ins> the ith sum. If <code>binary_op</code> is not mathematically associative, the behavior of
+          includes the ith input element in the ith sum. If <code>binary_op</code> is not mathematically associative, the behavior of
           <code>transform_inclusive_scan</code> may be non-deterministic. <code>transform_inclusive_scan</code> does not apply <code>unary_op</code> to <code>init</code>.
         </cxx-notes>
       </cxx-function>

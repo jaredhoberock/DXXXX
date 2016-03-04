@@ -3,20 +3,18 @@
 <p>Add the following entry to Table 41:</p>
 
 <table>
-  <tr><td><del>19.6</del><ins>18.8.?</del></td><td>Exception list</td><td><code>&lt;exception_list&gt;</code></td></tr>
+  <tr><td>18.8.?</td><td>Exception list</td><td><code>&lt;exception_list&gt;</code></td></tr>
 </table>
 
-<ins>
 and corresponding entry <code>&lt;exception_list&gt;</code> to Table 14 and adjust the reported number of headers.
-</ins>
 
-<p>Add a new <del>subclause</del><ins>section</ins> to Clause <del>19</del><ins>18 after <code>exception_ptr</code></ins>:</p>
+<p>Add a new section to Clause 18 after <code>exception_ptr</code>:</p>
 
 <cxx-clause id = support number = 18>
-  <h1><del>Diagnostics</del><ins>Language support</ins> library</h1>
+  <h1>Language support library</h1>
 
   <cxx-section id = "exception" number = 8>
-    <h1><ins>Exception handling</ins></h1>
+    <h1>Exception handling</h1>
 
     <cxx-section id = "exception.list" number = ?>
       <h1>Class <code>exception_list</code></h1>
@@ -38,13 +36,13 @@ namespace std {
 }
       </pre>
       <p>
-        The class <code>exception_list</code> owns a sequence of <code>exception_ptr</code> objects. <del>The p</del><ins>P</ins>arallel
-        algorithms <del>may </del>use the <code>exception_list</code> to communicate uncaught exceptions encountered during parallel execution to the
+        The class <code>exception_list</code> owns a sequence of <code>exception_ptr</code> objects. Parallel
+        algorithms use the <code>exception_list</code> to communicate uncaught exceptions encountered during parallel execution to the
         caller of the algorithm.
       </p>
 
       <p>
-        The type <code>exception_list::iterator</code> <ins>is a constant iterator that </ins>meets the requirements of
+        The type <code>exception_list::iterator</code> is a constant iterator that meets the requirements of
         <code>ForwardIterator</code>.
       </p>
 
